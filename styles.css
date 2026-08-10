@@ -195,8 +195,11 @@ body {
 .action-btn-row .btn-ghost { font-size: 11.5px; padding: 6px 10px; }
 
 #pane-map {
+  display: block;
   overflow-y: auto;
 }
 #mapCanvas {
-  min-height: 480px;
+  width: 100%;
+  height: 700px;
+  flex: none;
 }
