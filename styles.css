@@ -178,9 +178,9 @@ body {
 ::-webkit-scrollbar-thumb { background: #2a2f39; border-radius: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
-#pane-map {
+pane-map {
   overflow-y: auto;
 }
-#mapCanvas {
+mapCanvas {
   min-height: 480px;
 }
