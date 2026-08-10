@@ -86,7 +86,7 @@ export function getConquestTargets(game) {
 export function estimateConquestOdds(game, provinceId) {
   const player = playerOf(game);
   const p = game.world.provinces.get(provinceId);
-  const sizePenalty = Math.max(0, (player.territoryProvinceIds.length - 25) / 10) * 0.03;
+  const sizePenalty = Math.max(0, (player.territoryProvinceIds.length - 25) / 10) * 0.75;
   const specBonus = player.specialization === 'military' ? 0.15 : 0;
   const odds = clamp(0.5 + specBonus - p.fortificationLevel * 0.3 - sizePenalty, 0.05, 0.9);
   return odds;
