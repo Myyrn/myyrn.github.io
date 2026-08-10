@@ -7,6 +7,7 @@ import {
   renderEmpireTab, renderWorldTab, renderDiplomacyTab, renderDebugTab,
   renderDataEditorTab, renderInspector, playerCountry,
 } from './ui/panels.js';
+import { renderActionsTab } from './ui/actions.js';
 import { getEditableTables, applyTableEdits } from './data.js';
 
 let game = null;
@@ -19,6 +20,7 @@ const canvas = document.getElementById('mapCanvas');
 const panes = {
   map: document.getElementById('pane-map'),
   empire: document.getElementById('pane-empire'),
+  actions: document.getElementById('pane-actions'),
   world: document.getElementById('pane-world'),
   diplomacy: document.getElementById('pane-diplomacy'),
   data: document.getElementById('pane-data'),
@@ -84,6 +86,7 @@ function renderAll() {
   document.getElementById('tickValue').textContent = game.tick;
   if (activeTab === 'map') renderMap();
   if (activeTab === 'empire') renderEmpireTab(panes.empire, game);
+  if (activeTab === 'actions') renderActionsTab(panes.actions, game, renderAll);
   if (activeTab === 'world') renderWorldTab(panes.world, game, onSelectCountry);
   if (activeTab === 'diplomacy') renderDiplomacyTab(panes.diplomacy, game);
   if (activeTab === 'debug') renderDebugTab(panes.debug, game);
