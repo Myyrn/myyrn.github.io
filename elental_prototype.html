@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elental — Prototype</title>
+<style>
+  :root {
+    --bg: #14161a; --panel: #1c1f25; --panel2: #22262d; --border: #2e333c;
+    --text: #e7e6e1; --mut: #9096a1; --accent: #c9a24a; --danger: #d0574f; --good: #6fae4e;
+  }
+  * { box-sizing: border-box; }
+  html,body { margin:0; padding:0; height:100%; background:var(--bg); color:var(--text);
+    font-family: "Segoe UI", Georgia, serif; font-size:14px; }
+  h1,h2,h3,h4 { font-family: Georgia, "Times New Roman", serif; margin: 0 0 8px 0; font-weight:600; letter-spacing:.3px;}
+  h2 { font-size:20px; color:var(--accent); border-bottom:1px solid var(--border); padding-bottom:8px; }
+  h3 { font-size:16px; color:var(--accent); }
+  h4 { font-size:13px; color:var(--mut); text-transform:uppercase; letter-spacing:1px; margin-top:14px;}
+  button { background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:4px;
+    padding:5px 10px; cursor:pointer; font-size:12.5px; }
+  button:hover { background:#2c313a; border-color:var(--accent); }
+  select, input { background:var(--panel2); color:var(--text); border:1px solid var(--border); border-radius:4px; padding:4px 6px; }
+  #app { display:flex; height:100vh; }
+
+  /* Sidebar */
+  #sidebar { width:220px; flex:0 0 220px; background:var(--panel); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; padding:14px; overflow-y:auto; }
+  #sidebar h1 { font-size:19px; color:var(--accent); margin-bottom:2px; }
+  .subtitle { color:var(--mut); font-size:11px; margin-bottom:14px; }
+  #turnCounter { font-size:15px; margin:6px 0 10px 0; }
+  #nextTurnBtn { width:100%; padding:9px; background:var(--accent); color:#1a1a1a; font-weight:600; border:none; margin-bottom:12px; }
+  #nextTurnBtn:hover { filter:brightness(1.1); }
+  #playerCountrySelect { width:100%; margin-bottom:12px; }
+  .navbtn { display:block; width:100%; text-align:left; margin-bottom:4px; background:transparent; border:1px solid transparent; }
+  .navbtn.active { background:var(--panel2); border-color:var(--border); color:var(--accent); }
+  #sidebarStats { margin:12px 0; font-size:12.5px; }
+  #sidebarStats div { display:flex; justify-content:space-between; padding:2px 0; }
+  #sidebarStats span { color:var(--mut); }
+  .debugrow { margin-top:10px; font-size:12px; color:var(--mut); display:flex; align-items:center; gap:6px;}
+  #eventLog { margin-top:10px; flex:1; overflow-y:auto; font-size:11px; color:var(--mut); border-top:1px solid var(--border); padding-top:8px; }
+  .logline { padding:2px 0; border-bottom:1px dotted #262a31; }
+
+  /* Main */
+  #main { flex:1; display:flex; flex-direction:column; min-width:0; }
+  .screen { display:none; flex:1; min-height:0; }
+  #screen-map { display:flex; }
+  .topbar { display:flex; gap:6px; padding:10px 14px; border-bottom:1px solid var(--border); background:var(--panel); }
+  .lensbtn.active { background:var(--panel2); border-color:var(--accent); color:var(--accent); }
+  #mapWrap { flex:1; overflow:auto; background:#0e1013; }
+  #mapCanvas { display:block; margin:10px auto; }
+  #detailPanel { width:320px; flex:0 0 320px; border-left:1px solid var(--border); background:var(--panel);
+    padding:14px; overflow-y:auto; }
+  .empty-hint { color:var(--mut); font-style:italic; padding:20px 0; }
+
+  #screen-country, #screen-questions, #screen-diplomacy, #screen-economics, #screen-army {
+    padding:18px 24px; overflow-y:auto;
+  }
+
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:14px; }
+  .panelgrid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .kv div { display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dotted #262a31; font-size:12.5px;}
+  .kv span { color:var(--mut); }
+  .kv.two-col { display:grid; grid-template-columns:1fr 1fr; column-gap:16px; }
+  .kv.two-col div { grid-column: span 1; }
+
+  .axisrow { display:flex; align-items:center; gap:8px; margin:6px 0; font-size:11.5px; }
+  .axislabel { width:80px; color:var(--mut); flex:0 0 80px; }
+  .axislabel:last-child { text-align:right; }
+  .axistrack { flex:1; height:6px; background:#0e1013; border-radius:3px; position:relative; }
+  .axisfill { display:none; }
+  .axismarker { position:absolute; top:-3px; width:4px; height:12px; background:var(--accent); border-radius:2px; transform:translateX(-2px); }
+
+  .celllist { margin-top:8px; }
+  .cellrow { display:flex; align-items:center; gap:6px; font-size:12px; padding:4px 0; border-bottom:1px dotted #262a31; }
+  .cellrow .mut { color:var(--mut); margin-left:auto; }
+  .dot { width:9px; height:9px; border-radius:50%; display:inline-block; flex:0 0 9px; }
+  .mut { color:var(--mut); }
+  .danger { color:var(--danger); }
+
+  .rawjson summary { cursor:pointer; color:var(--mut); font-size:11px; margin-top:8px; }
+  .rawjson pre { background:#0e1013; padding:8px; border-radius:4px; font-size:10px; max-height:220px; overflow:auto; }
+
+  .actionrow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px; }
+
+  .qtable, .diptable, .ecotable { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+  .qrow { display:flex; gap:14px; align-items:center; background:var(--panel); border:1px solid var(--border);
+    border-left:4px solid var(--mut); border-radius:4px; padding:10px 14px; }
+  .qrow.existential { border-left-color:var(--danger); }
+  .qrow.secondary { border-left-color:var(--good); }
+  .qmain { flex:0 0 220px; font-size:12.5px; }
+  .qbars { flex:1; }
+  .barlabel { font-size:10.5px; color:var(--mut); }
+  .bar { height:6px; background:#0e1013; border-radius:3px; margin-bottom:6px; overflow:hidden; }
+  .barfill.sev { height:100%; background:var(--danger); }
+  .barfill.comp { height:100%; background:var(--good); }
+  .qactions { flex:0 0 auto; display:flex; gap:6px; flex-wrap:wrap; }
+
+  .diprow { display:flex; justify-content:space-between; align-items:center; background:var(--panel);
+    border:1px solid var(--border); border-radius:4px; padding:10px 14px; gap:14px; flex-wrap:wrap; }
+  .dipmain { font-size:12.5px; }
+
+  .ecorow { display:grid; grid-template-columns: 1fr 1fr 1.4fr 1.2fr 1.2fr; gap:6px; font-size:12.5px;
+    padding:6px 10px; border-bottom:1px dotted #262a31; }
+  .ecohead { color:var(--mut); text-transform:uppercase; font-size:10.5px; letter-spacing:.5px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h1>Elental</h1>
+    <div class="subtitle">Alpha prototype — grand strategy</div>
+    <div id="turnCounter">Turn 0</div>
+    <button id="nextTurnBtn">Next Turn ▶</button>
+    <select id="playerCountrySelect"></select>
+    <button class="navbtn" data-screen="map">🗺 Map</button>
+    <button class="navbtn" data-screen="country">🏛 Country</button>
+    <button class="navbtn" data-screen="questions">❗ Questions</button>
+    <button class="navbtn" data-screen="diplomacy">🤝 Diplomacy</button>
+    <button class="navbtn" data-screen="economics">⚒ Economics</button>
+    <button class="navbtn" data-screen="army">⚔ Army</button>
+    <div id="sidebarStats"></div>
+    <label class="debugrow"><input type="checkbox" id="debugToggle"> Debug Mode (View Raw)</label>
+    <div id="eventLog"></div>
+  </div>
+  <div id="main">
+    <div class="screen" id="screen-map">
+      <div style="flex:1; display:flex; flex-direction:column; min-width:0;">
+        <div class="topbar">
+          <button class="lensbtn" data-lens="Terrain">Terrain</button>
+          <button class="lensbtn" data-lens="Political">Political</button>
+          <button class="lensbtn" data-lens="Military">Military</button>
+          <button class="lensbtn" data-lens="Economic">Economic</button>
+          <button class="lensbtn" data-lens="Cultural">Cultural</button>
+        </div>
+        <div id="mapWrap"><canvas id="mapCanvas"></canvas></div>
+      </div>
+      <div id="detailPanel"></div>
+    </div>
+    <div class="screen" id="screen-country"></div>
+    <div class="screen" id="screen-questions"></div>
+    <div class="screen" id="screen-diplomacy"></div>
+    <div class="screen" id="screen-economics"></div>
+    <div class="screen" id="screen-army"></div>
+  </div>
+</div>
+<script>
+// ============================================================================
+// Elental Prototype — Data / Constants
+// Derived from world_map__kb.md, economics__kb.md, internal_politics__kb.md,
+// nations__kb.md, diplomacy__kb.md, war__kb.md, cross_module_notes__kb.md
+// ============================================================================
+
+const TERRAIN_TYPES = ["Mountain","Hill","Desert","Steppe","Grassland","Wetland","Jungle","Arctic","Taiga"];
+
+// forestation ceiling [min,max] and rough arable/pop-density class (0-4) per terrain
+const TERRAIN_PROFILE = {
+  Desert:    { forest:[0,10],  arable:0, pop:0 },
+  Arctic:    { forest:[0,15],  arable:0, pop:0 },
+  Steppe:    { forest:[0,40],  arable:2, pop:1 },
+  Mountain:  { forest:[0,40],  arable:1, pop:1 },
+  Taiga:     { forest:[50,90], arable:1, pop:1 },
+  Wetland:   { forest:[20,70], arable:2, pop:3 },
+  Hill:      { forest:[10,70], arable:2, pop:2 },
+  Grassland: { forest:[10,70], arable:4, pop:4 },
+  Jungle:    { forest:[60,100],arable:1, pop:2 },
+};
+
+// terrain colors for map rendering
+const TERRAIN_COLOR = {
+  Mountain:"#8b8378", Hill:"#a89968", Desert:"#e0c98f", Steppe:"#c8b565",
+  Grassland:"#7fa858", Wetland:"#5f8f7a", Jungle:"#3e7a4a", Arctic:"#dbe8ec",
+  Taiga:"#4d6b56"
+};
+
+// Raw resources (16) and terrain-favor multiplier table
+const RAW_RESOURCES = ["Grain","Livestock","FineHorses","Fish","Timber","Stone","IronOre",
+  "PreciousMetalOre","Coal","Sulfur","Fiber","Wool","Hides","Salt","Herbs","MagicalReagents"];
+
+const TERRAIN_FAVOR = {
+  Mountain:  { IronOre:8, PreciousMetalOre:8, Coal:6, Stone:8, Sulfur:5 },
+  Hill:      { Stone:4, IronOre:3, Coal:3, FineHorses:2, Wool:2 },
+  Desert:    { Salt:6, Sulfur:4, PreciousMetalOre:2 },
+  Steppe:    { FineHorses:8, Livestock:5, Wool:3 },
+  Grassland: { Grain:6, Livestock:5, Wool:2 },
+  Wetland:   { Fish:5, Fiber:5, Salt:3, Herbs:3, IronOre:2 },
+  Jungle:    { Herbs:8, MagicalReagents:5, Fiber:4 },
+  Arctic:    { Fish:4, Hides:3, PreciousMetalOre:2 },
+  Taiga:     { Hides:5, Fish:3 }, // Timber handled separately via forestation
+};
+
+// Skilled Labor pools (19), per economics__kb.md
+const LABOR_POOLS = ["Agriculture","Mining","Woodcraft","Crafting","Meteomancy","Culture",
+  "Medicine","Builders","Diplomacy","Espionage","Trade","Teaching","Bureaucrats",
+  "ShockInfantry","PikeInfantry","Skirmishers","Cavalry","Artillery","SiegeCorps"];
+
+const ARMY_POOLS = ["ShockInfantry","PikeInfantry","Skirmishers","Cavalry","Artillery","SiegeCorps"];
+const PRODUCTION_POOLS = ["Agriculture","Mining","Woodcraft","Crafting","Trade","Meteomancy"];
+
+// Administrative Capability Envelope per pool: {Control, Coordination, Observation} ceilings (0-1)
+const ENVELOPE = {
+  Agriculture:{C:.05,N:.10,O:.05}, Mining:{C:.05,N:.10,O:.05}, Woodcraft:{C:.05,N:.10,O:.05},
+  Crafting:{C:.10,N:.15,O:.10}, Meteomancy:{C:.10,N:.10,O:.20}, Culture:{C:.10,N:.15,O:.15},
+  Medicine:{C:.05,N:.10,O:.10}, Builders:{C:.10,N:.15,O:.05}, Diplomacy:{C:.10,N:.15,O:.15},
+  Espionage:{C:.55,N:.15,O:.75}, Trade:{C:.10,N:.20,O:.15}, Teaching:{C:.05,N:.10,O:.10},
+  Bureaucrats:{C:.45,N:.75,O:.55}, ShockInfantry:{C:.70,N:.20,O:.15}, PikeInfantry:{C:.65,N:.20,O:.15},
+  Skirmishers:{C:.60,N:.20,O:.20}, Cavalry:{C:.75,N:.20,O:.20}, Artillery:{C:.65,N:.15,O:.15},
+  SiegeCorps:{C:.60,N:.15,O:.15},
+};
+
+const ESTATES = ["Nobility","Clergy","Peasantry","Citizens"];
+const ESTATE_COLOR = { Nobility:"#c9a24a", Clergy:"#9a6bd6", Peasantry:"#6fae4e", Citizens:"#4a8fc9" };
+const ESTATE_SHARE = { Nobility:0.08, Clergy:0.12, Peasantry:0.55, Citizens:0.25 };
+
+// Estate Labor Profile lean (weights over PRODUCTION-relevant + admin pools), per internal_politics__kb.md
+const ESTATE_PROFILE = {
+  Nobility:  { Bureaucrats:3, Diplomacy:2, Cavalry:3, ShockInfantry:2, Espionage:1, Culture:1 },
+  Clergy:    { Bureaucrats:2, Diplomacy:1, Culture:3, Medicine:3, Teaching:3, Meteomancy:1 },
+  Peasantry: { Agriculture:5, Mining:2, Woodcraft:2, Builders:2, PikeInfantry:1, Skirmishers:1 },
+  Citizens:  { Crafting:4, Trade:3, Diplomacy:1, Artillery:1, SiegeCorps:1, Bureaucrats:1 },
+};
+
+// Grievance buckets tracked in this prototype (subset of full psych+material list)
+// existential: sustained failure unlocks state-changing action; secondary: pressure only
+const GRIEVANCE_BUCKETS = {
+  Subsistence: { existential:true,  label:"Subsistence" },
+  Identity:    { existential:true,  label:"Identity / Autonomy" },
+  Solidarity:  { existential:true,  label:"Solidarity" },
+  Comfort:     { existential:false, label:"Comfort" },
+  Purpose:     { existential:false, label:"Purpose / Meaning" },
+};
+
+const PORTRAIT_AXES = [
+  { key:"extraction", a:"Extraction", b:"Investment" },
+  { key:"homogenizing", a:"Homogenizing", b:"Pluralist" },
+  { key:"fervor", a:"Fervor", b:"Secular" },
+  { key:"ruthlessness", a:"Ruthlessness", b:"Restraint" },
+  { key:"conservatism", a:"Conservatism", b:"Reformism" },
+];
+
+const CB_TIERS = ["Grievance","Rights","Sovereignty","Existential"];
+
+const NATION_NAME_ROOTS = ["Vael","Korr","Dun","Aeth","Bryn","Sol","Mor","Thal","Ost","Yr",
+  "Sael","Karn","Vesh","Tor","Nal","Erd","Quen","Fyr","Ulm","Hess"];
+const NATION_SUFFIX = ["ish","ari","ic","ese","ian","oth","ren","ak","ine","ish"];
+const COUNTRY_SUFFIX = ["Empire","Kingdom","Realm","Dominion","League","Hegemony","Principality","Concord","Marches","Commonwealth"];
+
+const HEX_SIZE = 16; // px radius, pointy-top
+const GRID_COLS = 25, GRID_ROWS = 20;
+const COUNTRY_COUNT = 10;
+
+const COUNTRY_COLORS = ["#c0504d","#4f81bd","#9bbb59","#8064a2","#4bacc6","#f79646",
+  "#c8556b","#2e8b57","#b8860b","#5b6ee1"];
+</script>
+<script>
+// ============================================================================
+// World generation
+// ============================================================================
+
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+let RNG = mulberry32(12345);
+function rnd() { return RNG(); }
+function rndInt(a, b) { return Math.floor(a + rnd() * (b - a + 1)); }
+function pick(arr) { return arr[Math.floor(rnd() * arr.length)]; }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+// ---- odd-r offset hex neighbors ----
+const NEI_EVEN = [[1,0],[0,-1],[-1,-1],[-1,0],[-1,1],[0,1]];
+const NEI_ODD  = [[1,0],[1,-1],[0,-1],[-1,0],[0,1],[1,1]];
+function neighborsOf(col, row) {
+  const set = (row % 2 === 0) ? NEI_EVEN : NEI_ODD;
+  const out = [];
+  for (const [dc,dr] of set) {
+    const c = col + dc, r = row + dr;
+    if (c >= 0 && c < GRID_COLS && r >= 0 && r < GRID_ROWS) out.push(r*GRID_COLS+c);
+  }
+  return out;
+}
+function hexPixel(col,row) {
+  const w = Math.sqrt(3) * HEX_SIZE;
+  const x = w * (col + 0.5 * (row % 2)) + w/2 + 4;
+  const y = HEX_SIZE * 1.5 * row + HEX_SIZE + 4;
+  return {x,y};
+}
+function hexDist(colA,rowA,colB,rowB) {
+  // convert odd-r offset to cube coords
+  function toCube(col,row){
+    const x = col - (row - (row&1))/2;
+    const z = row;
+    const y = -x-z;
+    return {x,y,z};
+  }
+  const a = toCube(colA,rowA), b = toCube(colB,rowB);
+  return Math.max(Math.abs(a.x-b.x), Math.abs(a.y-b.y), Math.abs(a.z-b.z));
+}
+
+function fantasyName(rootsUsed) {
+  let n;
+  do { n = pick(NATION_NAME_ROOTS) + pick(NATION_SUFFIX); } while (rootsUsed.has(n));
+  rootsUsed.add(n);
+  return n[0].toUpperCase() + n.slice(1);
+}
+
+function generateWorld(seed) {
+  RNG = mulberry32(seed);
+  const provinces = new Array(GRID_COLS*GRID_ROWS);
+
+  // 1. terrain seed (weighted random)
+  const terrainWeights = ["Grassland","Grassland","Hill","Hill","Mountain","Steppe","Wetland",
+    "Jungle","Desert","Taiga","Arctic"];
+  for (let row=0; row<GRID_ROWS; row++) {
+    for (let col=0; col<GRID_COLS; col++) {
+      const id = row*GRID_COLS+col;
+      provinces[id] = { id, col, row, terrain: pick(terrainWeights) };
+    }
+  }
+  // 2. smoothing passes -> contiguous terrain patches
+  for (let pass=0; pass<3; pass++) {
+    const next = new Array(provinces.length);
+    for (let i=0;i<provinces.length;i++) {
+      const p = provinces[i];
+      const counts = {};
+      counts[p.terrain] = (counts[p.terrain]||0) + 2; // self weight
+      for (const nId of neighborsOf(p.col,p.row)) {
+        const t = provinces[nId].terrain;
+        counts[t] = (counts[t]||0)+1;
+      }
+      let best = p.terrain, bestC = -1;
+      for (const t in counts) if (counts[t] > bestC) { bestC = counts[t]; best = t; }
+      next[i] = best;
+    }
+    for (let i=0;i<provinces.length;i++) provinces[i].terrain = next[i];
+  }
+
+  // 3. forestation, resources, population potential, habitability
+  for (const p of provinces) {
+    const prof = TERRAIN_PROFILE[p.terrain];
+    p.forestation = rndInt(prof.forest[0], prof.forest[1]);
+    p.arable_class = prof.arable;
+    p.pop_class = prof.pop;
+    const {x,y} = hexPixel(p.col,p.row);
+    p.px = x; p.py = y;
+    // yield index: average terrain-favor magnitude, used as abstracted production potential
+    const favor = TERRAIN_FAVOR[p.terrain] || {};
+    let favorSum = 1;
+    for (const k in favor) favorSum += favor[k];
+    p.yield_index = favorSum / 6 + (p.terrain==="Taiga" ? p.forestation/20 : 0);
+    p.infrastructure_level = rndInt(5, 25);
+    // habitability
+    if (p.pop_class === 0 && rnd() < 0.55) p.habitability = "Wasteland";
+    else if (rnd() < 0.12) p.habitability = "Claimed/Frontier";
+    else p.habitability = "Settled";
+    const basePop = p.habitability === "Wasteland" ? 0 :
+      (p.habitability === "Claimed/Frontier" ? rndInt(200,1500) : rndInt(1500, 3500 + p.pop_class*3500));
+    p.current_population = basePop;
+    p.urbanization_rate = clamp(rnd()*0.4 + (p.pop_class>=3?0.15:0), 0, 0.8);
+    p.owner = null;
+    p.regionId = null;
+  }
+
+  // 4. country seeds — farthest-point sampling
+  const seeds = [];
+  let first = rndInt(0, provinces.length-1);
+  seeds.push(first);
+  while (seeds.length < COUNTRY_COUNT) {
+    let bestId=-1, bestD=-1;
+    for (let i=0;i<provinces.length;i++) {
+      if (provinces[i].habitability==="Wasteland") continue;
+      let minD = Infinity;
+      for (const s of seeds) {
+        const sp = provinces[s];
+        const d = hexDist(provinces[i].col,provinces[i].row, sp.col, sp.row);
+        if (d<minD) minD=d;
+      }
+      if (minD > bestD) { bestD = minD; bestId = i; }
+    }
+    seeds.push(bestId);
+  }
+
+  const countries = [];
+  const usedNames = new Set();
+  for (let i=0;i<COUNTRY_COUNT;i++) {
+    const nameRoot = fantasyName(usedNames);
+    countries.push({
+      id:i, name: nameRoot + " " + pick(COUNTRY_SUFFIX), color: COUNTRY_COLORS[i%COUNTRY_COLORS.length],
+      seedProvince: seeds[i],
+      triangle: normalizeTri({ republic: rnd(), feudal: rnd(), theocracy: rnd() }),
+      instPersonalistic: rnd()*2-1,
+      portrait: {
+        extraction: rnd()*1.4-0.7, homogenizing: rnd()*1.4-0.7, fervor: rnd()*1.4-0.7,
+        ruthlessness: rnd()*1.4-0.7, conservatism: rnd()*1.4-0.7,
+      },
+      treasury: 2000,
+      controlPool: 0, coordinationPool:0, observationPool:0,
+      controlAllocation: [], // {filter:{nationId?,estateId?,regionId}, amount}
+      regionIds: [],
+      titularNationId: i,
+      atWar: new Set(),
+      relations: {}, // countryId -> {opinion, cb:Set, atWar:bool}
+      warExhaustion: 0,
+    });
+  }
+
+  // 5. Voronoi-ish ownership via multi-source BFS
+  const queue = [];
+  for (let i=0;i<COUNTRY_COUNT;i++) {
+    provinces[seeds[i]].owner = i;
+    queue.push(seeds[i]);
+  }
+  let qi = 0;
+  const visited = new Set(queue);
+  // shuffle-ish expansion using simple FIFO with randomized neighbor order approximates Voronoi
+  while (qi < queue.length) {
+    const cur = queue[qi++];
+    const p = provinces[cur];
+    const nbrs = neighborsOf(p.col,p.row);
+    // shuffle
+    for (let i=nbrs.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [nbrs[i],nbrs[j]]=[nbrs[j],nbrs[i]]; }
+    for (const nId of nbrs) {
+      if (!visited.has(nId)) {
+        visited.add(nId);
+        provinces[nId].owner = p.owner;
+        queue.push(nId);
+      }
+    }
+  }
+
+  // 6. Region clustering: BFS chunks of 6-8 contiguous same-owner provinces
+  let regionCounter = 0;
+  const regions = [];
+  for (let c=0;c<COUNTRY_COUNT;c++) {
+    const ownProvinces = provinces.filter(p=>p.owner===c).map(p=>p.id);
+    const unassigned = new Set(ownProvinces);
+    while (unassigned.size > 0) {
+      const startId = unassigned.values().next().value;
+      const chunk = [];
+      const localQueue = [startId];
+      unassigned.delete(startId);
+      while (localQueue.length && chunk.length < 7) {
+        const cur = localQueue.shift();
+        chunk.push(cur);
+        const p = provinces[cur];
+        for (const nId of neighborsOf(p.col,p.row)) {
+          if (chunk.length + localQueue.length >= 8) break;
+          if (unassigned.has(nId)) {
+            unassigned.delete(nId);
+            localQueue.push(nId);
+          }
+        }
+      }
+      // leftover localQueue members go back if capacity exceeded (rare) -- push back to unassigned
+      for (const rem of localQueue) unassigned.add(rem);
+      const regionId = regionCounter++;
+      const region = { id: regionId, countryId: c, provinceIds: chunk, nationPop: {} };
+      for (const pid of chunk) provinces[pid].regionId = regionId;
+      regions.push(region);
+      countries[c].regionIds.push(regionId);
+    }
+  }
+
+  // 7. Nations: one titular per country + scattered minorities
+  const nations = [];
+  usedNames.clear();
+  for (let i=0;i<COUNTRY_COUNT;i++) {
+    nations.push({ id:i, name: fantasyName(usedNames), color: COUNTRY_COLORS[i%COUNTRY_COLORS.length], titularCountry:i });
+  }
+  // population per region distributed to nations
+  for (const region of regions) {
+    const provs = region.provinceIds.map(id=>provinces[id]);
+    const totalPop = provs.reduce((s,p)=>s+p.current_population,0);
+    region.totalPopulation = totalPop;
+    const titular = region.countryId; // nation id === titular country id
+    let minorityShare = 0;
+    const minorityNations = [];
+    if (rnd() < 0.45 && totalPop > 0) {
+      const nCount = rndInt(1,2);
+      for (let k=0;k<nCount;k++) {
+        let candidate = rndInt(0,COUNTRY_COUNT-1);
+        if (candidate===titular || minorityNations.includes(candidate)) continue;
+        minorityNations.push(candidate);
+      }
+    }
+    if (minorityNations.length) {
+      let remaining = rndInt(10,35)/100;
+      for (const mn of minorityNations) {
+        const share = remaining / minorityNations.length;
+        region.nationPop[mn] = Math.round(totalPop*share);
+        minorityShare += share;
+      }
+    }
+    region.nationPop[titular] = Math.max(0, totalPop - Object.values(region.nationPop).reduce((s,v)=>s+v,0));
+  }
+
+  // 8. Actor cells: (Nation, Estate, Region)
+  const actors = {};
+  for (const region of regions) {
+    for (const nationIdStr in region.nationPop) {
+      const nationId = +nationIdStr;
+      const pop = region.nationPop[nationId];
+      if (pop <= 0) continue;
+      for (const estate of ESTATES) {
+        const cellPop = Math.round(pop * ESTATE_SHARE[estate]);
+        if (cellPop <= 0) continue;
+        const key = `${nationId}|${estate}|${region.id}`;
+        const laborPools = distributeLabor(cellPop, ESTATE_PROFILE[estate]);
+        actors[key] = {
+          key, nationId, estate, regionId: region.id, countryId: region.countryId,
+          population: cellPop,
+          wealth: rndInt(50,300),
+          grievance: { Subsistence: rndInt(5,20), Identity: rndInt(0,15), Solidarity: rndInt(0,15),
+                       Comfort: rndInt(5,20), Purpose: rndInt(0,15) },
+          opinionGov: rndInt(-10,10),
+          laborPools,
+          rights: defaultRights(),
+          duties: defaultDuties(),
+          prestige: 0, weight: 0,
+          deFactoAutonomous: false,
+          warExhaustion: 0,
+        };
+      }
+    }
+  }
+
+  return { provinces, countries, regions, nations, actors };
+}
+
+function normalizeTri(t) {
+  const s = t.republic+t.feudal+t.theocracy;
+  return { republic:t.republic/s, feudal:t.feudal/s, theocracy:t.theocracy/s };
+}
+
+function distributeLabor(pop, profile) {
+  const keys = Object.keys(profile);
+  const total = keys.reduce((s,k)=>s+profile[k],0);
+  const out = {};
+  for (const pool of LABOR_POOLS) out[pool] = 0;
+  let assigned = 0;
+  for (const k of keys) {
+    const amt = Math.round(pop * (profile[k]/total) * 0.8); // 80% of pop in profile-leaning pools
+    out[k] = amt; assigned += amt;
+  }
+  out["Agriculture"] += Math.max(0, pop - assigned); // remainder as general subsistence labor
+  return out;
+}
+
+function defaultRights() {
+  return {
+    council:false, vetoWar:false, vetoAutonomy:false, vetoMarket:false, vetoSkilledLabor:false,
+    localJurisdiction:false, petition:true, landOwnership:true, armedRetinue:false,
+    marriageAutonomy:true, legalImmunity:false, marketAccess:true, foreignTradeAccess:false,
+    minting:false, estateMobility: 0,
+  };
+}
+function defaultDuties() {
+  return { taxRate:0.15, levyObligation:0.10, skilledLaborDuty:0.10, corvee:0.0, billeting:false, loyaltyOath:true };
+}
+</script>
+<script>
+// ============================================================================
+// Simulation — Economics / Internal Politics / Diplomacy / War ticks
+// ============================================================================
+
+const PRESTIGE_BASELINE = { Nobility:70, Clergy:55, Citizens:40, Peasantry:20 };
+
+function initSim(world) {
+  world.turn = 0;
+  world.log = [];
+  world.armies = [];
+  world.nextArmyId = 1;
+  world.questions = {}; // id -> question
+  world.nextQuestionId = 1;
+  world.adminDirective = {}; // countryId -> fraction (0-1) of admin-capable labor directed to Control
+  for (const c of world.countries) {
+    world.adminDirective[c.id] = 0.15;
+    for (const other of world.countries) {
+      if (other.id === c.id) continue;
+      c.relations[other.id] = { opinion: 0, cb: {}, atWar: false, reputation: 0 };
+    }
+  }
+  recomputeAllPrestige(world);
+}
+
+function logMsg(world, text) {
+  world.log.unshift(`T${world.turn} — ${text}`);
+  if (world.log.length > 200) world.log.length = 200;
+}
+
+// ---------------------------------------------------------------------------
+// Prestige / Weight
+// ---------------------------------------------------------------------------
+function recomputeAllPrestige(world) {
+  for (const key in world.actors) computePrestige(world, world.actors[key]);
+}
+function rightsGrantedCount(rights) {
+  let n = 0;
+  for (const k in rights) if (rights[k] === true) n++;
+  return n;
+}
+function computePrestige(world, actor) {
+  const baseline = PRESTIGE_BASELINE[actor.estate];
+  const rg = rightsGrantedCount(actor.rights);
+  const dutyBurden = (actor.duties.taxRate + actor.duties.levyObligation + actor.duties.skilledLaborDuty + actor.duties.corvee) * 40;
+  actor.prestige = clamp(baseline + rg * 2.5 - dutyBurden + actor.opinionGov * 0.15, 1, 100);
+  actor.weight = actor.population * (actor.prestige / 100);
+}
+
+// ---------------------------------------------------------------------------
+// Economics tick
+// ---------------------------------------------------------------------------
+function economicsTick(world) {
+  const regionPotential = {};
+  for (const region of world.regions) {
+    let potential = 0;
+    for (const pid of region.provinceIds) {
+      const p = world.provinces[pid];
+      if (p.habitability === "Wasteland") continue;
+      potential += p.yield_index * (1 + p.infrastructure_level / 100) * (p.current_population / 3000);
+    }
+    regionPotential[region.id] = potential;
+  }
+
+  // pass 1: each cell's own production (its contribution to the country market)
+  for (const key in world.actors) {
+    const a = world.actors[key];
+    const region = world.regions[a.regionId];
+    if (!region) continue;
+    const popShare = region.totalPopulation > 0 ? a.population / region.totalPopulation : 0;
+    const prodPools = PRODUCTION_POOLS.reduce((s, pl) => s + a.laborPools[pl], 0);
+    const laborFrac = a.population > 0 ? prodPools / a.population : 0;
+    a.production = (regionPotential[a.regionId] || 0) * popShare * laborFrac * 95;
+  }
+
+  // pass 2: country market pool -> buy-back. Per Rule "Subsistence -> Comfort -> Luxury"
+  // priority, the bulk of the pool is distributed population-proportionally (everyone's
+  // labor first feeds subsistence access), while a smaller top-up slice is distributed by
+  // Weight = population x Prestige (existing derived stock) so higher-Prestige Estates get
+  // disproportionate access to Comfort/Luxury-tier buy-back — approximating "sold to Country
+  // market -> cell buys back necessities" (economics__kb.md) without inventing a new stat.
+  for (const country of world.countries) {
+    let pool = 0, totalWeight = 0, totalPop = 0;
+    const cells = [];
+    for (const key in world.actors) {
+      const a = world.actors[key];
+      if (a.countryId !== country.id) continue;
+      cells.push(a);
+      pool += a.production;
+      totalWeight += Math.max(1, a.weight || a.population * 0.3);
+      totalPop += a.population;
+    }
+    const baseFrac = 0.72;
+    const basePool = pool * baseFrac, prestigePool = pool * (1 - baseFrac);
+    for (const a of cells) {
+      const w = Math.max(1, a.weight || a.population * 0.3);
+      const popShareOfCountry = totalPop > 0 ? a.population / totalPop : 0;
+      const marketShare = basePool * popShareOfCountry + (totalWeight > 0 ? prestigePool * (w / totalWeight) : 0);
+      const available = a.wealth + marketShare;
+
+      const subsistenceCost = a.population * 0.05;
+      const comfortCost = a.population * 0.02;
+      const luxuryCost = a.population * 0.01;
+
+      let remaining = available;
+      const unmetSub = Math.max(0, subsistenceCost - remaining); remaining -= subsistenceCost;
+      const unmetComf = remaining < 0 ? comfortCost : Math.max(0, comfortCost - Math.max(0, remaining)); remaining -= comfortCost;
+      const unmetLux = remaining < 0 ? luxuryCost : Math.max(0, luxuryCost - Math.max(0, remaining)); remaining -= luxuryCost;
+
+      const tax = remaining > 0 ? remaining * a.duties.taxRate : 0;
+      a.wealth = remaining - tax;
+      country.treasury += tax;
+      a.marketShare = marketShare;
+
+      a.unmetRatio = {
+        Subsistence: clamp(unmetSub / Math.max(1, subsistenceCost), 0, 1),
+        Comfort: clamp(unmetComf / Math.max(1, comfortCost), 0, 1),
+        Luxury: clamp(unmetLux / Math.max(1, luxuryCost), 0, 1),
+      };
+    }
+  }
+
+  // administrative envelope -> Control/Coordination/Observation pool per country
+  for (const c of world.countries) {
+    let C=0,N=0,O=0;
+    for (const key in world.actors) {
+      const a = world.actors[key];
+      if (a.countryId !== c.id) continue;
+      for (const pool of ["Bureaucrats","Espionage","ShockInfantry","PikeInfantry","Cavalry"]) {
+        const units = a.laborPools[pool] * world.adminDirective[c.id];
+        const env = ENVELOPE[pool];
+        C += units*env.C; N += units*env.N; O += units*env.O;
+      }
+    }
+    c.controlPool = C/40; c.coordinationPool = N/40; c.observationPool = O/40;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Control allocation lookup
+// ---------------------------------------------------------------------------
+function controlAllocatedTo(world, country, actor) {
+  let sum = 0;
+  for (const entry of country.controlAllocation) {
+    const f = entry.filter;
+    if (f.regionId != null && f.regionId !== actor.regionId) continue;
+    if (f.nationId != null && f.nationId !== actor.nationId) continue;
+    if (f.estate != null && f.estate !== actor.estate) continue;
+    sum += entry.amount;
+  }
+  return clamp(sum, 0, 100);
+}
+
+// ---------------------------------------------------------------------------
+// Internal politics tick — grievance, compliance, questions, pressure
+// ---------------------------------------------------------------------------
+function politicsTick(world) {
+  for (const c of world.countries) c.pressure = 0;
+
+  for (const key in world.actors) {
+    const a = world.actors[key];
+    const country = world.countries[a.countryId];
+    const u = a.unmetRatio || { Subsistence:0, Comfort:0, Luxury:0 };
+
+    // grievance updates
+    a.grievance.Subsistence = clamp(a.grievance.Subsistence + (u.Subsistence > 0.05 ? u.Subsistence*16 : -8), 0, 100);
+    a.grievance.Comfort = clamp(a.grievance.Comfort + (u.Comfort > 0.1 ? u.Comfort*8 : -6), 0, 100);
+
+    const titular = country.titularNationId;
+    if (a.nationId !== titular) {
+      const homogenizingLean = country.portrait.homogenizing; // >0 = homogenizing pole (a), <0 pluralist
+      a.grievance.Identity = clamp(a.grievance.Identity + 2.5 + Math.max(0,homogenizingLean)*4, 0, 100);
+    } else {
+      a.grievance.Identity = clamp(a.grievance.Identity - 4, 0, 100);
+    }
+
+    a.grievance.Solidarity = clamp(a.grievance.Solidarity + (a.opinionGov < -20 ? 3 : -3), 0, 100);
+    const cultureShare = a.population>0 ? a.laborPools.Culture / a.population : 0;
+    a.grievance.Purpose = clamp(a.grievance.Purpose + (cultureShare < 0.03 ? 1.5 : -2.5), 0, 100);
+
+    // opinion-toward-government update
+    const rightsFrac = rightsGrantedCount(a.rights) / Object.keys(a.rights).length;
+    const satisfaction = (1-u.Subsistence)*0.5 + (1-u.Comfort)*0.2 + rightsFrac*0.3;
+    a.opinionGov = clamp(a.opinionGov + (satisfaction - 0.55) * 9, -100, 100);
+
+    computePrestige(world, a);
+
+    // compliance & question generation
+    const controlAlloc = controlAllocatedTo(world, country, a);
+    const voluntary = clamp((a.opinionGov + 100) / 2, 0, 100);
+    a.compliance = voluntary * 0.6 + controlAlloc * 0.4;
+
+    for (const need in GRIEVANCE_BUCKETS) {
+      const severity = a.grievance[need];
+      const qid = `${a.key}::${need}`;
+      const existing = world.questions[qid];
+      if (severity > a.compliance) {
+        if (!existing) {
+          world.questions[qid] = {
+            id: qid, actorKey: a.key, need, tier: GRIEVANCE_BUCKETS[need].existential ? "existential":"secondary",
+            severity, age: 0, countryId: a.countryId,
+          };
+          logMsg(world, `New Question: ${a.estate} of ${world.nations[a.nationId].name} (Region ${a.regionId}) — ${need}`);
+        } else {
+          existing.severity = severity;
+          existing.age += 1;
+          if (existing.tier === "existential" && existing.age === 10) {
+            escalateQuestion(world, existing, a);
+          }
+        }
+        country.pressure += severity * a.population/1000 * (a.prestige/100);
+      } else if (existing) {
+        delete world.questions[qid];
+      }
+    }
+  }
+}
+
+function escalateQuestion(world, q, actor) {
+  const country = world.countries[actor.countryId];
+  actor.opinionGov = clamp(actor.opinionGov - 20, -100, 100);
+  if (q.need === "Subsistence" || q.severity > 75) {
+    actor.deFactoAutonomous = true;
+    logMsg(world, `⚠ ${actor.estate} of ${world.nations[actor.nationId].name} (Region ${actor.regionId}) has gone De Facto Autonomous over unresolved ${q.need}!`);
+    if (actor.estate === "Peasantry" || rnd() < 0.3) spawnRebelStack(world, actor);
+  }
+}
+
+function spawnRebelStack(world, actor) {
+  const region = world.regions[actor.regionId];
+  if (!region || !region.provinceIds.length) return;
+  const pid = pick(region.provinceIds);
+  world.armies.push({
+    id: world.nextArmyId++, countryId: -1, rebelOf: actor.countryId, originCell: actor.key,
+    composition: { PikeInfantry: Math.round(actor.population*0.02), Skirmishers: Math.round(actor.population*0.01) },
+    cohesion: 60, supply: 80, locationProvinceId: pid, targetProvinceId: null, stance: "hold",
+  });
+  logMsg(world, `Rebellion! A rebel stack has formed in province ${pid}.`);
+}
+
+// ---------------------------------------------------------------------------
+// Diplomacy tick
+// ---------------------------------------------------------------------------
+function diplomacyTick(world) {
+  for (const c of world.countries) {
+    for (const oid in c.relations) {
+      const r = c.relations[oid];
+      r.opinion += (0 - r.opinion) * 0.02;
+      r.reputation += (0 - r.reputation) * 0.03;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// War tick — movement + combat + supply
+// ---------------------------------------------------------------------------
+function pathStep(world, fromId, toId) {
+  // simple BFS shortest path, return next hop
+  if (fromId === toId) return fromId;
+  const from = world.provinces[fromId];
+  const start = fromId, goal = toId;
+  const visited = new Set([start]);
+  const queue = [[start]];
+  while (queue.length) {
+    const path = queue.shift();
+    const cur = path[path.length-1];
+    if (cur === goal) return path[1] || cur;
+    const p = world.provinces[cur];
+    for (const nId of neighborsOf(p.col,p.row)) {
+      if (!visited.has(nId)) {
+        visited.add(nId);
+        const np = path.concat(nId);
+        if (nId === goal) return np[1];
+        queue.push(np);
+      }
+    }
+    if (queue.length > 2000) break;
+  }
+  return null;
+}
+
+function armyStrength(army) {
+  let s = 0;
+  for (const pool of ARMY_POOLS) s += (army.composition[pool]||0);
+  return s;
+}
+
+function computeSupply(world, army) {
+  const country = world.countries[army.countryId];
+  if (!country) { army.supply = 50; return; } // rebels
+  // BFS distance to nearest owned province
+  const startP = world.provinces[army.locationProvinceId];
+  if (startP.owner === army.countryId) { army.supply = clamp(90 + startP.infrastructure_level/5, 0, 100); return; }
+  const visited = new Set([army.locationProvinceId]);
+  let queue = [{id:army.locationProvinceId, d:0}];
+  let dist = null;
+  while (queue.length) {
+    const {id,d} = queue.shift();
+    const p = world.provinces[id];
+    if (p.owner === army.countryId) { dist = d; break; }
+    if (d > 8) continue;
+    for (const nId of neighborsOf(p.col,p.row)) {
+      if (!visited.has(nId)) { visited.add(nId); queue.push({id:nId, d:d+1}); }
+    }
+  }
+  army.supply = dist === null ? 10 : clamp(95 - dist*12, 5, 100);
+}
+
+function garrisonStrengthFor(world, provinceId) {
+  const p = world.provinces[provinceId];
+  if (p.owner == null) return 0;
+  const region = world.regions[p.regionId];
+  if (!region) return Math.round(p.current_population * 0.01);
+  let mil = 0, pop = 0;
+  for (const key in world.actors) {
+    const a = world.actors[key];
+    if (a.regionId !== region.id) continue;
+    pop += a.population;
+    for (const pool of ARMY_POOLS) mil += a.laborPools[pool];
+  }
+  return Math.round((mil / Math.max(1,region.provinceIds.length)) * 0.15);
+}
+
+function resolveBattle(world, attacker, defenderProvinceId, defenderArmy) {
+  const defStrength = defenderArmy ? armyStrength(defenderArmy) * (defenderArmy.cohesion/100) * (defenderArmy.supply/100)
+    : garrisonStrengthFor(world, defenderProvinceId);
+  const atkStrength = armyStrength(attacker) * (attacker.cohesion/100) * (attacker.supply/100);
+
+  // skirmish phase
+  const atkRanged = (attacker.composition.Skirmishers||0)+(attacker.composition.Artillery||0);
+  const defRanged = defenderArmy ? (defenderArmy.composition.Skirmishers||0)+(defenderArmy.composition.Artillery||0) : defStrength*0.2;
+  const skirmDelta = (atkRanged - defRanged) * 0.15;
+
+  const total = atkStrength + defStrength + 1;
+  const atkPower = atkStrength + skirmDelta;
+  const winChance = clamp(atkPower / (atkPower + defStrength), 0.02, 0.98);
+  const attackerWins = rnd() < winChance;
+
+  // casualties proportional to opposed strength ratio
+  const lossRatioWinner = clamp(0.05 + (defStrength/total)*0.25, 0.03, 0.3);
+  const lossRatioLoser = clamp(0.25 + (atkStrength/total)*0.35, 0.2, 0.7);
+  applyCasualties(world, attacker, attackerWins ? lossRatioWinner : lossRatioLoser);
+  if (defenderArmy) applyCasualties(world, defenderArmy, attackerWins ? lossRatioLoser : lossRatioWinner);
+
+  attacker.cohesion = clamp(attacker.cohesion - (attackerWins?8:25), 5, 100);
+  if (defenderArmy) defenderArmy.cohesion = clamp(defenderArmy.cohesion - (attackerWins?25:8), 5, 100);
+
+  return attackerWins;
+}
+
+function applyCasualties(world, army, ratio) {
+  for (const pool of ARMY_POOLS) {
+    army.composition[pool] = Math.max(0, Math.round((army.composition[pool]||0) * (1-ratio)));
+  }
+  // War Score, per war__doc.md, is Administration's Loyalty/Faction-damage model
+  // externalized: casualties strike the origin cell's Opinion-toward-Government and
+  // accrue War Exhaustion directly, feeding Internal Politics' Solidarity bucket.
+  if (army.originRegionId != null) {
+    const region = world.regions[army.originRegionId];
+    if (region) {
+      for (const key in world.actors) {
+        const a = world.actors[key];
+        if (a.regionId !== region.id) continue;
+        const exhaustionRate = a.estate === "Peasantry" ? 1.4 : (a.estate === "Nobility" ? 0.5 : 1.0);
+        a.warExhaustion = clamp((a.warExhaustion||0) + ratio * 12 * exhaustionRate, 0, 100);
+        a.opinionGov = clamp(a.opinionGov - ratio * 10 * exhaustionRate, -100, 100);
+        a.grievance.Solidarity = clamp(a.grievance.Solidarity + ratio * 8 * exhaustionRate, 0, 100);
+      }
+    }
+  }
+}
+
+function warTick(world) {
+  for (const army of world.armies) {
+    computeSupply(world, army);
+  }
+  // movement
+  for (const army of world.armies) {
+    if (!army.targetProvinceId || army.targetProvinceId === army.locationProvinceId) continue;
+    const next = pathStep(world, army.locationProvinceId, army.targetProvinceId);
+    if (next == null) continue;
+    const nextProv = world.provinces[next];
+    const isHostile = nextProv.owner != null && nextProv.owner !== army.countryId &&
+      (army.countryId === -1 || isAtWar(world, army.countryId, nextProv.owner));
+    const defendingArmy = world.armies.find(a => a.id !== army.id && a.locationProvinceId === next &&
+      a.countryId !== army.countryId && (army.countryId===-1 || a.countryId===-1 || isAtWar(world, a.countryId, army.countryId)));
+
+    if (defendingArmy || (isHostile)) {
+      const won = resolveBattle(world, army, next, defendingArmy);
+      if (defendingArmy && armyStrength(defendingArmy) <= 0) {
+        world.armies = world.armies.filter(a => a.id !== defendingArmy.id);
+        logMsg(world, `Army #${army.id} destroyed the defending force at province ${next}.`);
+      }
+      if (won && (!defendingArmy || armyStrength(defendingArmy) <= 0)) {
+        army.locationProvinceId = next;
+        if (isHostile) captureProvince(world, next, army.countryId);
+      } else {
+        logMsg(world, `Army #${army.id} was repelled attacking province ${next}.`);
+      }
+    } else {
+      army.locationProvinceId = next;
+    }
+  }
+  // remove wiped armies
+  world.armies = world.armies.filter(a => armyStrength(a) > 0 || a.composition && Object.values(a.composition).some(v=>v>0));
+}
+
+function isAtWar(world, a, b) {
+  if (a === -1 || b === -1) return true;
+  const c = world.countries[a];
+  return c && c.relations[b] && c.relations[b].atWar;
+}
+
+function captureProvince(world, provinceId, newOwnerId) {
+  const p = world.provinces[provinceId];
+  const oldOwner = p.owner;
+  if (oldOwner === newOwnerId) return;
+  const oldRegion = p.regionId != null ? world.regions[p.regionId] : null;
+
+  if (oldRegion) {
+    oldRegion.provinceIds = oldRegion.provinceIds.filter(id => id !== provinceId);
+    oldRegion.totalPopulation = Math.max(0, oldRegion.totalPopulation - p.current_population);
+  }
+  p.owner = newOwnerId;
+
+  if (newOwnerId == null) { p.regionId = null; logMsg(world, `Province ${provinceId} razed to no-owner.`); return; }
+
+  // find adjacent region of new owner with room
+  let targetRegion = null;
+  for (const nId of neighborsOf(p.col,p.row)) {
+    const np = world.provinces[nId];
+    if (np.owner === newOwnerId && np.regionId != null) {
+      const r = world.regions[np.regionId];
+      if (r.provinceIds.length < 8) { targetRegion = r; break; }
+    }
+  }
+  if (!targetRegion) {
+    targetRegion = { id: world.regions.length, countryId: newOwnerId, provinceIds: [], nationPop: {}, totalPopulation: 0 };
+    world.regions.push(targetRegion);
+    world.countries[newOwnerId].regionIds.push(targetRegion.id);
+    // conquered population keeps its prior cultural identity (sticky, per Nations kb)
+    const originNation = oldOwner != null ? world.countries[oldOwner].titularNationId : world.countries[newOwnerId].titularNationId;
+    targetRegion.nationPop[originNation] = p.current_population;
+    for (const estate of ESTATES) {
+      const cellPop = Math.round(p.current_population * ESTATE_SHARE[estate]);
+      if (cellPop <= 0) continue;
+      const key = `${originNation}|${estate}|${targetRegion.id}`;
+      world.actors[key] = {
+        key, nationId: originNation, estate, regionId: targetRegion.id, countryId: newOwnerId,
+        population: cellPop, wealth: 20,
+        grievance: { Subsistence:25, Identity: originNation===world.countries[newOwnerId].titularNationId?5:30, Solidarity:20, Comfort:20, Purpose:10 },
+        opinionGov: -25, laborPools: distributeLabor(cellPop, ESTATE_PROFILE[estate]),
+        rights: defaultRights(), duties: defaultDuties(), prestige:0, weight:0, deFactoAutonomous:false, warExhaustion:0,
+      };
+    }
+  } else {
+    targetRegion.totalPopulation += p.current_population;
+    const originNation = oldOwner != null ? world.countries[oldOwner].titularNationId : world.countries[newOwnerId].titularNationId;
+    targetRegion.nationPop[originNation] = (targetRegion.nationPop[originNation]||0) + p.current_population;
+  }
+  targetRegion.provinceIds.push(provinceId);
+  p.regionId = targetRegion.id;
+  logMsg(world, `Province ${provinceId} captured by ${world.countries[newOwnerId].name}.`);
+}
+
+// ---------------------------------------------------------------------------
+// Turn advance
+// ---------------------------------------------------------------------------
+function advanceTurn(world) {
+  world.turn += 1;
+  economicsTick(world);
+  politicsTick(world);
+  diplomacyTick(world);
+  warTick(world);
+}
+</script>
+<script>
+// ============================================================================
+// Rendering — Map (hex canvas + lenses), Detail Panel, Dashboards
+// ============================================================================
+
+const UI = {
+  screen: "map",
+  lens: "Political",
+  selectedProvinceId: null,
+  selectedArmyId: null,
+  playerCountryId: 0,
+  debug: false,
+};
+
+function $(sel) { return document.querySelector(sel); }
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+function fmt(n) { if (n == null || isNaN(n)) return "—"; return Math.round(n).toLocaleString(); }
+function fmt1(n) { if (n == null || isNaN(n)) return "—"; return (Math.round(n*10)/10).toLocaleString(); }
+function pct(n) { return Math.round(n*100) + "%"; }
+
+function lerpColor(c1, c2, t) {
+  const a = c1.match(/\w\w/g).map(x=>parseInt(x,16));
+  const b = c2.match(/\w\w/g).map(x=>parseInt(x,16));
+  const r = a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+  return "#" + r.map(v=>v.toString(16).padStart(2,"0")).join("");
+}
+function shade(hex, amt) {
+  const c = hex.replace("#","").match(/\w\w/g).map(x=>clamp(parseInt(x,16)+amt,0,255));
+  return "#" + c.map(v=>v.toString(16).padStart(2,"0")).join("");
+}
+function hexToRgba(hex, alpha) {
+  const c = hex.replace("#","").match(/\w\w/g).map(x=>parseInt(x,16));
+  return `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+}
+
+// ---------------------------------------------------------------------------
+// Map canvas
+// ---------------------------------------------------------------------------
+let canvas, ctx;
+function initCanvas() {
+  canvas = $("#mapCanvas");
+  ctx = canvas.getContext("2d");
+  const w = Math.sqrt(3)*HEX_SIZE*(GRID_COLS+1);
+  const h = HEX_SIZE*1.5*GRID_ROWS + HEX_SIZE*2;
+  canvas.width = w; canvas.height = h;
+  canvas.addEventListener("click", onCanvasClick);
+}
+
+function hexCorners(cx,cy,size) {
+  const pts = [];
+  for (let i=0;i<6;i++) {
+    const ang = Math.PI/180*(60*i-30);
+    pts.push([cx+size*Math.cos(ang), cy+size*Math.sin(ang)]);
+  }
+  return pts;
+}
+
+function armiesAtProvince(world, pid) {
+  return world.armies.filter(a=>a.locationProvinceId===pid);
+}
+
+function provinceFill(world, p, lens) {
+  if (p.habitability === "Wasteland" && lens !== "Cultural") {
+    const base = TERRAIN_COLOR[p.terrain];
+    return lerpColor(base, "#2a2a2a", 0.6);
+  }
+  switch (lens) {
+    case "Terrain": return TERRAIN_COLOR[p.terrain];
+    case "Political": return p.owner != null ? world.countries[p.owner].color : "#333";
+    case "Military": {
+      const base = p.owner != null ? world.countries[p.owner].color : "#333";
+      const hostile = armiesAtProvince(world,p.id).some(a=>a.countryId!==p.owner);
+      return hostile ? shade(base, -40) : shade(base, -70);
+    }
+    case "Economic": {
+      const t = clamp((p.yield_index * (p.current_population/4000)) / 3, 0, 1);
+      return lerpColor("#232320", "#e8d84a", t);
+    }
+    case "Cultural": {
+      const region = world.regions[p.regionId];
+      if (!region || !region.totalPopulation) return "#333";
+      let best=null, bestShare=-1;
+      for (const nid in region.nationPop) {
+        const share = region.nationPop[nid]/region.totalPopulation;
+        if (share>bestShare) { bestShare=share; best=+nid; }
+      }
+      if (best==null) return "#333";
+      return hexToRgba(world.nations[best].color, clamp(0.25+bestShare*0.75,0.2,1));
+    }
+  }
+  return "#333";
+}
+
+function renderMap(world) {
+  ctx.fillStyle = "#14161a";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  for (const p of world.provinces) {
+    const corners = hexCorners(p.px, p.py, HEX_SIZE-1);
+    ctx.beginPath();
+    corners.forEach(([x,y],i)=> i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
+    ctx.closePath();
+    ctx.fillStyle = provinceFill(world, p, UI.lens);
+    ctx.fill();
+
+    let borderCountry=false, borderRegion=false;
+    for (const nId of neighborsOf(p.col,p.row)) {
+      const np = world.provinces[nId];
+      if (np.owner !== p.owner) borderCountry = true;
+      else if (np.regionId !== p.regionId) borderRegion = true;
+    }
+    if (UI.lens==="Terrain" || UI.lens==="Political" || UI.lens==="Military") {
+      ctx.lineWidth = borderCountry ? 2 : (borderRegion ? 1 : 0.4);
+      ctx.strokeStyle = borderCountry ? "#0a0a0a" : (borderRegion ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)");
+      ctx.stroke();
+    } else {
+      ctx.lineWidth = 0.4; ctx.strokeStyle = "rgba(0,0,0,0.3)"; ctx.stroke();
+    }
+    if (p.id === UI.selectedProvinceId) {
+      ctx.lineWidth = 2.5; ctx.strokeStyle = "#ffffff"; ctx.stroke();
+    }
+  }
+  // army markers
+  for (const a of world.armies) {
+    const p = world.provinces[a.locationProvinceId];
+    const color = a.countryId===-1 ? "#c0392b" : world.countries[a.countryId].color;
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, 6, 0, Math.PI*2);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.lineWidth = a.id===UI.selectedArmyId ? 2 : 1;
+    ctx.strokeStyle = "#fff"; ctx.stroke();
+    ctx.fillStyle = "#fff"; ctx.font = "8px sans-serif"; ctx.textAlign="center";
+    ctx.fillText(String(armyStrength(a)), p.px, p.py+18);
+  }
+}
+
+function provinceAtPixel(world, x, y) {
+  let best=null, bestD=Infinity;
+  for (const p of world.provinces) {
+    const d = (p.px-x)**2 + (p.py-y)**2;
+    if (d<bestD) { bestD=d; best=p; }
+  }
+  return bestD < HEX_SIZE*HEX_SIZE*1.2 ? best : null;
+}
+
+function onCanvasClick(ev) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (ev.clientX-rect.left) * (canvas.width/rect.width);
+  const y = (ev.clientY-rect.top) * (canvas.height/rect.height);
+  const p = provinceAtPixel(window.WORLD, x, y);
+  if (!p) return;
+  UI.selectedProvinceId = p.id;
+  const armiesHere = armiesAtProvince(window.WORLD, p.id);
+  if (UI.selectedArmyId != null && armiesHere.length===0) {
+    // move order: send selected army toward this province
+    const army = window.WORLD.armies.find(a=>a.id===UI.selectedArmyId);
+    if (army && army.countryId===UI.playerCountryId) {
+      army.targetProvinceId = p.id;
+      logMsg(window.WORLD, `Army #${army.id} ordered to march toward province ${p.id}.`);
+    }
+  } else if (armiesHere.length) {
+    UI.selectedArmyId = armiesHere[0].id;
+  }
+  renderAll();
+}
+
+// ---------------------------------------------------------------------------
+// Detail panel
+// ---------------------------------------------------------------------------
+function debugBlock(obj) {
+  if (!UI.debug) return "";
+  return `<details class="rawjson"><summary>View Raw</summary><pre>${escapeHtml(JSON.stringify(obj,null,2))}</pre></details>`;
+}
+function escapeHtml(s){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+function renderDetailPanel(world) {
+  const panel = $("#detailPanel");
+  panel.innerHTML = "";
+  if (UI.selectedArmyId != null) {
+    const a = world.armies.find(x=>x.id===UI.selectedArmyId);
+    if (a) { panel.appendChild(armyCard(world,a)); return; }
+  }
+  if (UI.selectedProvinceId != null) {
+    const p = world.provinces[UI.selectedProvinceId];
+    panel.appendChild(provinceCard(world,p));
+    return;
+  }
+  panel.appendChild(el("div","empty-hint","Click a province or army on the map to inspect it."));
+}
+
+function provinceCard(world, p) {
+  const card = el("div","card");
+  const owner = p.owner!=null ? world.countries[p.owner] : null;
+  const region = p.regionId!=null ? world.regions[p.regionId] : null;
+  card.appendChild(el("h3",null,`Province #${p.id}`));
+  card.appendChild(el("div","kv",`
+    <div><span>Terrain</span><b>${p.terrain}</b></div>
+    <div><span>Forestation</span><b>${p.forestation}%</b></div>
+    <div><span>Habitability</span><b>${p.habitability}</b></div>
+    <div><span>Population</span><b>${fmt(p.current_population)}</b></div>
+    <div><span>Owner</span><b style="color:${owner?owner.color:'#888'}">${owner?owner.name:"—"}</b></div>
+    <div><span>Region</span><b>${region?("#"+region.id+" ("+region.provinceIds.length+" prov.)"):"—"}</b></div>
+    <div><span>Infrastructure</span><b>${p.infrastructure_level}%</b></div>
+    <div><span>Yield index</span><b>${fmt1(p.yield_index)}</b></div>
+  `));
+  if (region) {
+    const cells = Object.values(world.actors).filter(a=>a.regionId===region.id);
+    const list = el("div","celllist");
+    list.appendChild(el("h4",null,"Actor cells in region"));
+    for (const c of cells.sort((a,b)=>b.population-a.population)) {
+      list.appendChild(el("div","cellrow", `
+        <span class="dot" style="background:${world.nations[c.nationId].color}"></span>
+        ${world.nations[c.nationId].name} ${c.estate}
+        <span class="mut">pop ${fmt(c.population)} · opinion ${fmt(c.opinionGov)} · prestige ${fmt(c.prestige)}</span>
+      `));
+    }
+    card.appendChild(list);
+  }
+  const armiesHere = armiesAtProvince(world, p.id);
+  if (armiesHere.length) {
+    const list = el("div","celllist");
+    list.appendChild(el("h4",null,"Armies present"));
+    for (const a of armiesHere) {
+      list.appendChild(el("div","cellrow",
+        `${a.countryId===-1?"Rebels":world.countries[a.countryId].name} — strength ${armyStrength(a)}`));
+    }
+    card.appendChild(list);
+  }
+  card.appendChild(el("div",null,debugBlock(p)));
+  return card;
+}
+
+function armyCard(world, a) {
+  const card = el("div","card");
+  const owner = a.countryId===-1 ? null : world.countries[a.countryId];
+  card.appendChild(el("h3",null,`Army #${a.id} ${owner?"— "+owner.name:"(Rebel)"}`));
+  const compRows = ARMY_POOLS.map(p=>`<div><span>${p}</span><b>${fmt(a.composition[p]||0)}</b></div>`).join("");
+  card.appendChild(el("div","kv", `
+    <div><span>Location</span><b>Province #${a.locationProvinceId}</b></div>
+    <div><span>Target</span><b>${a.targetProvinceId!=null?("#"+a.targetProvinceId):"—"}</b></div>
+    <div><span>Cohesion</span><b>${fmt(a.cohesion)}%</b></div>
+    <div><span>Supply</span><b>${fmt(a.supply)}%</b></div>
+    <div><span>Strength</span><b>${fmt(armyStrength(a))}</b></div>
+    ${compRows}
+  `));
+  if (owner && owner.id===UI.playerCountryId) {
+    const move = el("div","actionrow");
+    move.innerHTML = `<input type="number" min="0" max="${world.provinces.length-1}" placeholder="target province #" id="moveTargetInput" style="width:120px">
+      <button data-action="moveArmy" data-army="${a.id}">Set march order</button>
+      <button data-action="disbandArmy" data-army="${a.id}">Disband</button>`;
+    card.appendChild(move);
+  }
+  card.appendChild(el("div",null,debugBlock(a)));
+  return card;
+}
+
+// ---------------------------------------------------------------------------
+// Country dashboard
+// ---------------------------------------------------------------------------
+function axisBar(label, a, b, val) {
+  const t = (val+1)/2;
+  return `<div class="axisrow">
+    <span class="axislabel">${a}</span>
+    <div class="axistrack"><div class="axismarker" style="left:${t*100}%"></div></div>
+    <span class="axislabel">${b}</span>
+  </div>`;
+}
+
+function renderCountryScreen(world) {
+  const c = world.countries[UI.playerCountryId];
+  const root = $("#screen-country"); root.innerHTML = "";
+
+  const top = el("div","panelgrid");
+  const gov = el("div","card");
+  gov.appendChild(el("h3",null,c.name));
+  const triTotal = c.triangle.republic+c.triangle.feudal+c.triangle.theocracy;
+  gov.appendChild(el("div","kv",`
+    <div><span>Republic</span><b>${pct(c.triangle.republic)}</b></div>
+    <div><span>Feudal</span><b>${pct(c.triangle.feudal)}</b></div>
+    <div><span>Theocracy</span><b>${pct(c.triangle.theocracy)}</b></div>
+  `));
+  gov.appendChild(el("div","axisrow",`<span class="axislabel">Personalistic</span>
+    <div class="axistrack"><div class="axismarker" style="left:${((c.instPersonalistic+1)/2)*100}%"></div></div>
+    <span class="axislabel">Institutional</span>`));
+  gov.appendChild(el("h4",null,"Government Portrait"));
+  const axesHtml = PORTRAIT_AXES.map(ax=>axisBar(ax.label, ax.a, ax.b, c.portrait[ax.key])).join("");
+  gov.appendChild(el("div",null,axesHtml));
+  top.appendChild(gov);
+
+  const admin = el("div","card");
+  admin.appendChild(el("h3",null,"Administration"));
+  admin.appendChild(el("div","kv",`
+    <div><span>Treasury</span><b>${fmt(c.treasury)} wealth</b></div>
+    <div><span>Control pool</span><b>${fmt1(c.controlPool)}</b></div>
+    <div><span>Coordination pool</span><b>${fmt1(c.coordinationPool)}</b></div>
+    <div><span>Observation pool</span><b>${fmt1(c.observationPool)}</b></div>
+    <div><span>Pressure</span><b class="${c.pressure>40?'danger':''}">${fmt1(c.pressure||0)}</b></div>
+  `));
+  admin.appendChild(el("label",null,`Admin directive: ${pct(world.adminDirective[c.id])} of admin-capable labor <input type="range" min="0" max="100" value="${world.adminDirective[c.id]*100}" id="adminDirectiveSlider">`));
+  const allocList = el("div","celllist");
+  allocList.appendChild(el("h4",null,"Control Allocation (standing)"));
+  if (!c.controlAllocation.length) allocList.appendChild(el("div","mut","No standing allocations."));
+  c.controlAllocation.forEach((entry,idx)=>{
+    allocList.appendChild(el("div","cellrow",
+      `${describeFilter(world,entry.filter)} — ${entry.amount} <button data-action="removeAlloc" data-idx="${idx}">✕</button>`));
+  });
+  admin.appendChild(allocList);
+  top.appendChild(admin);
+  root.appendChild(top);
+
+  // labor pool totals
+  const totals = {};
+  for (const pool of LABOR_POOLS) totals[pool]=0;
+  let totalPop=0;
+  for (const key in world.actors) {
+    const a = world.actors[key];
+    if (a.countryId !== c.id) continue;
+    totalPop += a.population;
+    for (const pool of LABOR_POOLS) totals[pool]+=a.laborPools[pool];
+  }
+  const laborCard = el("div","card");
+  laborCard.appendChild(el("h3",null,`Skilled Labor (total population ${fmt(totalPop)})`));
+  const rows = LABOR_POOLS.map(p=>`<div><span>${p}</span><b>${fmt(totals[p])}</b></div>`).join("");
+  laborCard.appendChild(el("div","kv two-col",rows));
+  root.appendChild(laborCard);
+
+  const warCard = el("div","card");
+  warCard.appendChild(el("h3",null,"War & Diplomacy status"));
+  const warRows = Object.keys(c.relations).map(oid=>{
+    const r = c.relations[oid]; const other = world.countries[oid];
+    return `<div><span>${other.name}</span><b class="${r.atWar?'danger':''}">${r.atWar?"AT WAR":("opinion "+fmt(r.opinion))}</b></div>`;
+  }).join("");
+  warCard.appendChild(el("div","kv",warRows));
+  root.appendChild(warCard);
+}
+
+function describeFilter(world, f) {
+  const parts = [];
+  if (f.regionId != null) parts.push("Region #"+f.regionId);
+  if (f.nationId != null) parts.push(world.nations[f.nationId].name);
+  if (f.estate != null) parts.push(f.estate);
+  return parts.join(" · ") || "(all)";
+}
+
+// ---------------------------------------------------------------------------
+// Questions screen
+// ---------------------------------------------------------------------------
+function renderQuestionsScreen(world) {
+  const root = $("#screen-questions"); root.innerHTML = "";
+  const c = world.countries[UI.playerCountryId];
+  const qs = Object.values(world.questions).filter(q=>q.countryId===c.id).sort((a,b)=>b.severity-a.severity);
+  root.appendChild(el("h2",null,`Questions — ${c.name} (Pressure: ${fmt1(c.pressure||0)})`));
+  if (!qs.length) { root.appendChild(el("div","empty-hint","No open Questions. The realm is calm.")); return; }
+  const table = el("div","qtable");
+  for (const q of qs) {
+    const a = world.actors[q.actorKey];
+    if (!a) continue;
+    const row = el("div", "qrow " + (q.tier==="existential"?"existential":"secondary"));
+    row.innerHTML = `
+      <div class="qmain">
+        <b>${world.nations[a.nationId].name} ${a.estate}</b> <span class="mut">Region #${a.regionId}</span>
+        <div class="mut">${GRIEVANCE_BUCKETS[q.need].label} · ${q.tier} · age ${q.age}</div>
+      </div>
+      <div class="qbars">
+        <div class="barlabel">Severity ${fmt(q.severity)}</div>
+        <div class="bar"><div class="barfill sev" style="width:${q.severity}%"></div></div>
+        <div class="barlabel">Compliance ${fmt(a.compliance)}</div>
+        <div class="bar"><div class="barfill comp" style="width:${clamp(a.compliance,0,100)}%"></div></div>
+      </div>
+      <div class="qactions">
+        <button data-action="persuade" data-key="${a.key}">Persuade (${fmt(persuadeCost(a))}w)</button>
+        <button data-action="allocControl" data-key="${a.key}">+20 Control here</button>
+      </div>`;
+    table.appendChild(row);
+  }
+  root.appendChild(table);
+}
+function persuadeCost(a) { return Math.round(20 + a.population/200); }
+
+// ---------------------------------------------------------------------------
+// Diplomacy screen
+// ---------------------------------------------------------------------------
+function renderDiplomacyScreen(world) {
+  const root = $("#screen-diplomacy"); root.innerHTML = "";
+  const c = world.countries[UI.playerCountryId];
+  root.appendChild(el("h2",null,`Diplomacy — ${c.name}`));
+  const table = el("div","diptable");
+  for (const other of world.countries) {
+    if (other.id === c.id) continue;
+    const r = c.relations[other.id];
+    const cbs = Object.keys(r.cb).filter(t=>r.cb[t]);
+    const row = el("div","diprow");
+    row.innerHTML = `
+      <div class="dipmain">
+        <span class="dot" style="background:${other.color}"></span><b>${other.name}</b>
+        <span class="mut">${r.atWar?"AT WAR":"at peace"} · opinion ${fmt(r.opinion)} · reputation ${fmt(r.reputation)}</span>
+        <div class="mut">CBs held: ${cbs.length?cbs.join(", "):"none"}</div>
+      </div>
+      <div class="qactions">
+        <button data-action="improveRelations" data-country="${other.id}">Improve Relations (100w)</button>
+        <button data-action="fabricateCB" data-country="${other.id}">Fabricate Grievance CB (150w)</button>
+        ${r.atWar
+          ? `<button data-action="suePeace" data-country="${other.id}">Sue for Peace</button>`
+          : `<button data-action="declareWar" data-country="${other.id}">Declare War</button>`}
+      </div>`;
+    table.appendChild(row);
+  }
+  root.appendChild(table);
+}
+
+// ---------------------------------------------------------------------------
+// Economics screen
+// ---------------------------------------------------------------------------
+function renderEconomicsScreen(world) {
+  const root = $("#screen-economics"); root.innerHTML = "";
+  const c = world.countries[UI.playerCountryId];
+  root.appendChild(el("h2",null,`Economics — ${c.name} (Treasury ${fmt(c.treasury)})`));
+  const table = el("div","ecotable");
+  const head = el("div","ecorow ecohead", `<div>Region</div><div>Provinces</div><div>Population</div><div>Production</div><div>Avg Opinion</div>`);
+  table.appendChild(head);
+  for (const rid of c.regionIds) {
+    const region = world.regions[rid];
+    if (!region) continue;
+    const cells = Object.values(world.actors).filter(a=>a.regionId===rid);
+    const prod = cells.reduce((s,a)=>s+(a.production||0),0);
+    const avgOp = cells.length ? cells.reduce((s,a)=>s+a.opinionGov,0)/cells.length : 0;
+    table.appendChild(el("div","ecorow",
+      `<div>#${rid}</div><div>${region.provinceIds.length}</div><div>${fmt(region.totalPopulation)}</div><div>${fmt1(prod)}</div><div>${fmt1(avgOp)}</div>`));
+  }
+  root.appendChild(table);
+}
+
+// ---------------------------------------------------------------------------
+// Army screen
+// ---------------------------------------------------------------------------
+function renderArmyScreen(world) {
+  const root = $("#screen-army"); root.innerHTML = "";
+  const c = world.countries[UI.playerCountryId];
+  root.appendChild(el("h2",null,`Army — ${c.name}`));
+
+  const raise = el("div","card");
+  raise.appendChild(el("h3",null,"Raise Army"));
+  const options = c.regionIds.map(rid=>`<option value="${rid}">Region #${rid} (${world.regions[rid]?.provinceIds.length||0} prov.)</option>`).join("");
+  raise.innerHTML += `<div class="actionrow">
+    <select id="raiseRegionSelect">${options}</select>
+    <label>Mobilize <input type="number" id="raiseFraction" value="30" min="1" max="90" style="width:50px">% of regional Army labor</label>
+    <button data-action="raiseArmy">Raise</button>
+  </div>`;
+  root.appendChild(raise);
+
+  const list = el("div","card");
+  list.appendChild(el("h3",null,"Standing Armies"));
+  const myArmies = world.armies.filter(a=>a.countryId===c.id);
+  if (!myArmies.length) list.appendChild(el("div","empty-hint","No armies raised yet."));
+  for (const a of myArmies) {
+    list.appendChild(el("div","cellrow",
+      `Army #${a.id} — province #${a.locationProvinceId} — strength ${armyStrength(a)} — cohesion ${fmt(a.cohesion)}% — supply ${fmt(a.supply)}%
+       <button data-action="selectArmy" data-army="${a.id}">Inspect</button>`));
+  }
+  root.appendChild(list);
+}
+</script>
+<script>
+// ============================================================================
+// Main — init, sidebar, action dispatch
+// ============================================================================
+
+function initGame() {
+  const world = generateWorld(Date.now() % 1000000);
+  initSim(world);
+  window.WORLD = world;
+  UI.playerCountryId = 0;
+  initCanvas();
+  wireStaticControls();
+  document.body.addEventListener("click", onActionClick);
+  document.body.addEventListener("change", onActionChange);
+  renderAll();
+}
+
+function wireStaticControls() {
+  document.querySelectorAll(".navbtn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{ UI.screen = btn.dataset.screen; renderAll(); });
+  });
+  document.querySelectorAll(".lensbtn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{ UI.lens = btn.dataset.lens; renderAll(); });
+  });
+  $("#nextTurnBtn").addEventListener("click", ()=>{
+    advanceTurn(window.WORLD);
+    renderAll();
+  });
+  $("#playerCountrySelect").addEventListener("change", (e)=>{
+    UI.playerCountryId = +e.target.value;
+    UI.selectedProvinceId = null; UI.selectedArmyId = null;
+    renderAll();
+  });
+  $("#debugToggle").addEventListener("change", (e)=>{
+    UI.debug = e.target.checked;
+    renderAll();
+  });
+}
+
+function onActionChange(ev) {
+  const t = ev.target;
+  if (t.id === "adminDirectiveSlider") {
+    window.WORLD.adminDirective[UI.playerCountryId] = (+t.value)/100;
+    renderAll();
+  }
+}
+
+function onActionClick(ev) {
+  const btn = ev.target.closest("[data-action]");
+  if (!btn) return;
+  const world = window.WORLD;
+  const action = btn.dataset.action;
+  const c = world.countries[UI.playerCountryId];
+
+  if (action === "persuade") {
+    const a = world.actors[btn.dataset.key];
+    const cost = persuadeCost(a);
+    if (c.treasury >= cost) {
+      c.treasury -= cost;
+      a.opinionGov = clamp(a.opinionGov + 18, -100, 100);
+      logMsg(world, `Persuasion applied to ${world.nations[a.nationId].name} ${a.estate} (Region #${a.regionId}).`);
+    } else logMsg(world, `Not enough treasury to persuade.`);
+  } else if (action === "allocControl") {
+    const a = world.actors[btn.dataset.key];
+    c.controlAllocation.push({ filter: { nationId: a.nationId, estate: a.estate, regionId: a.regionId }, amount: 20 });
+    logMsg(world, `Control allocated to ${world.nations[a.nationId].name} ${a.estate} (Region #${a.regionId}).`);
+  } else if (action === "removeAlloc") {
+    c.controlAllocation.splice(+btn.dataset.idx, 1);
+  } else if (action === "improveRelations") {
+    const oid = +btn.dataset.country;
+    if (c.treasury >= 100) {
+      c.treasury -= 100;
+      c.relations[oid].opinion = clamp(c.relations[oid].opinion + 10, -100, 100);
+      world.countries[oid].relations[c.id].opinion = clamp(world.countries[oid].relations[c.id].opinion + 10, -100, 100);
+      logMsg(world, `Improved relations with ${world.countries[oid].name}.`);
+    }
+  } else if (action === "fabricateCB") {
+    const oid = +btn.dataset.country;
+    if (c.treasury >= 150) {
+      c.treasury -= 150;
+      c.relations[oid].cb["Grievance"] = true;
+      logMsg(world, `Fabricated a Grievance casus belli against ${world.countries[oid].name}.`);
+    }
+  } else if (action === "declareWar") {
+    const oid = +btn.dataset.country;
+    const r = c.relations[oid];
+    const hasCB = Object.values(r.cb).some(v=>v);
+    r.atWar = true;
+    world.countries[oid].relations[c.id].atWar = true;
+    if (!hasCB) {
+      r.reputation = clamp(r.reputation - 30, -100, 100);
+      logMsg(world, `${c.name} declared war on ${world.countries[oid].name} without recognized CB — reputational overreach.`);
+    } else {
+      logMsg(world, `${c.name} declared war on ${world.countries[oid].name}.`);
+    }
+  } else if (action === "suePeace") {
+    const oid = +btn.dataset.country;
+    c.relations[oid].atWar = false;
+    world.countries[oid].relations[c.id].atWar = false;
+    c.relations[oid].cb = {};
+    logMsg(world, `Peace concluded between ${c.name} and ${world.countries[oid].name}.`);
+  } else if (action === "raiseArmy") {
+    const regionId = +$("#raiseRegionSelect").value;
+    const frac = clamp((+$("#raiseFraction").value)/100, 0.01, 0.9);
+    raiseArmy(world, c.id, regionId, frac);
+  } else if (action === "selectArmy") {
+    UI.selectedArmyId = +btn.dataset.army;
+    UI.screen = "map";
+  } else if (action === "moveArmy") {
+    const target = +$("#moveTargetInput").value;
+    const army = world.armies.find(a=>a.id===+btn.dataset.army);
+    if (army && !isNaN(target) && world.provinces[target]) {
+      army.targetProvinceId = target;
+      logMsg(world, `Army #${army.id} ordered to march toward province ${target}.`);
+    }
+  } else if (action === "disbandArmy") {
+    const aid = +btn.dataset.army;
+    const army = world.armies.find(a=>a.id===aid);
+    if (army) {
+      returnLaborHome(world, army);
+      world.armies = world.armies.filter(a=>a.id!==aid);
+      if (UI.selectedArmyId===aid) UI.selectedArmyId=null;
+      logMsg(world, `Army #${aid} disbanded.`);
+    }
+  }
+  renderAll();
+}
+
+function raiseArmy(world, countryId, regionId, frac) {
+  const region = world.regions[regionId];
+  if (!region || !region.provinceIds.length) return;
+  const cells = Object.values(world.actors).filter(a=>a.regionId===regionId);
+  const composition = {};
+  for (const pool of ARMY_POOLS) composition[pool] = 0;
+  let cost = 0;
+  for (const cell of cells) {
+    for (const pool of ARMY_POOLS) {
+      const take = Math.round(cell.laborPools[pool] * frac);
+      cell.laborPools[pool] -= take;
+      composition[pool] += take;
+      cost += take * 0.4;
+    }
+  }
+  const country = world.countries[countryId];
+  if (country.treasury < cost) { logMsg(world, `Not enough treasury to equip that mobilization.`); 
+    for (const cell of cells) for (const pool of ARMY_POOLS) cell.laborPools[pool] += Math.round((composition[pool]/cells.length)); // rough refund, not exact
+    return; }
+  country.treasury -= cost;
+  const strength = ARMY_POOLS.reduce((s,p)=>s+composition[p],0);
+  if (strength <= 0) { logMsg(world, `No army labor available to mobilize in that region.`); return; }
+  world.armies.push({
+    id: world.nextArmyId++, countryId, originCell: null, originRegionId: regionId,
+    composition, cohesion: 75, supply: 90,
+    locationProvinceId: region.provinceIds[0], targetProvinceId: null, stance: "hold",
+  });
+  logMsg(world, `${country.name} raised a new army in Region #${regionId} (strength ${fmt(strength)}).`);
+}
+
+function returnLaborHome(world, army) {
+  if (army.originRegionId == null) return;
+  const cells = Object.values(world.actors).filter(a=>a.regionId===army.originRegionId);
+  if (!cells.length) return;
+  for (const pool of ARMY_POOLS) {
+    const per = Math.floor((army.composition[pool]||0) / cells.length);
+    for (const cell of cells) cell.laborPools[pool] += per;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Top-level render dispatch
+// ---------------------------------------------------------------------------
+function renderAll() {
+  const world = window.WORLD;
+  renderSidebar(world);
+  document.querySelectorAll(".screen").forEach(s=>s.style.display = "none");
+  document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active", b.dataset.screen===UI.screen));
+
+  if (UI.screen === "map") {
+    $("#screen-map").style.display = "flex";
+    document.querySelectorAll(".lensbtn").forEach(b=>b.classList.toggle("active", b.dataset.lens===UI.lens));
+    renderMap(world);
+    renderDetailPanel(world);
+  } else if (UI.screen === "country") {
+    $("#screen-country").style.display = "block";
+    renderCountryScreen(world);
+  } else if (UI.screen === "questions") {
+    $("#screen-questions").style.display = "block";
+    renderQuestionsScreen(world);
+  } else if (UI.screen === "diplomacy") {
+    $("#screen-diplomacy").style.display = "block";
+    renderDiplomacyScreen(world);
+  } else if (UI.screen === "economics") {
+    $("#screen-economics").style.display = "block";
+    renderEconomicsScreen(world);
+  } else if (UI.screen === "army") {
+    $("#screen-army").style.display = "block";
+    renderArmyScreen(world);
+  }
+}
+
+function renderSidebar(world) {
+  $("#turnCounter").textContent = "Turn " + world.turn;
+  const sel = $("#playerCountrySelect");
+  if (sel.options.length === 0) {
+    world.countries.forEach(c=>{
+      const o = document.createElement("option");
+      o.value = c.id; o.textContent = c.name;
+      sel.appendChild(o);
+    });
+    sel.value = UI.playerCountryId;
+  }
+  const c = world.countries[UI.playerCountryId];
+  $("#sidebarStats").innerHTML = `
+    <div><span>Treasury</span><b>${fmt(c.treasury)}</b></div>
+    <div><span>Pressure</span><b class="${(c.pressure||0)>40?'danger':''}">${fmt1(c.pressure||0)}</b></div>
+    <div><span>Questions</span><b>${Object.values(world.questions).filter(q=>q.countryId===c.id).length}</b></div>
+  `;
+  const logDiv = $("#eventLog");
+  logDiv.innerHTML = world.log.slice(0,40).map(l=>`<div class="logline">${escapeHtml(l)}</div>`).join("");
+}
+
+window.addEventListener("DOMContentLoaded", initGame);
+</script>
+
+</body>
+</html>
