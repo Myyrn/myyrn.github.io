@@ -1,0 +1,804 @@
+{
+ "eps.modifier": {
+  "value": 0.0001,
+  "status": "placeholder"
+ },
+ "eps.need": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "eps.infra": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "eps.prestige": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "prod.k": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "prod.alpha": {
+  "value": 0.85,
+  "status": "placeholder"
+ },
+ "prod.theta": {
+  "value": 1.5,
+  "status": "placeholder"
+ },
+ "scar.eps": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "scar.min": {
+  "value": 0.25,
+  "status": "placeholder"
+ },
+ "scar.max": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "scar.elasticity": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "flow.share": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "flow.friction": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "zone.capBase": {
+  "value": 100,
+  "status": "placeholder"
+ },
+ "money.kappa": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "credit.lendFraction": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "credit.r0": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "credit.eta": {
+  "value": 0.7,
+  "status": "placeholder"
+ },
+ "debt.arrearsLimit": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "contrib.beta": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "teach.rate": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "wh.slowFactor": {
+  "value": 0.25,
+  "status": "placeholder"
+ },
+ "fair.scale": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "opinion.k": {
+  "value": 3,
+  "status": "placeholder"
+ },
+ "opinion.perf": {
+  "value": 2,
+  "status": "placeholder"
+ },
+ "opinion.satNeutral": {
+  "value": 0.7,
+  "status": "placeholder"
+ },
+ "opinion.align": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "opinion.modDecay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "compliance.controlPerCapita": {
+  "value": 0.001,
+  "status": "placeholder"
+ },
+ "attr.warSteepness": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "attr.lowAwareness": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "tier.existential": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "tier.structural": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "faction.fracture": {
+  "value": -0.3,
+  "status": "placeholder"
+ },
+ "faction.align": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "bloc.cost": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "mom.rise": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "mom.decay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "rung.enter": {
+  "value": [
+   0.2,
+   0.5,
+   0.9,
+   1.4
+  ],
+  "status": "placeholder"
+ },
+ "rung.exit": {
+  "value": [
+   0.1,
+   0.35,
+   0.7,
+   1.1
+  ],
+  "status": "placeholder"
+ },
+ "stance.align": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "stance.approve": {
+  "value": 0,
+  "status": "placeholder"
+ },
+ "acc.w0": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "acc.crisis": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "acc.exposure": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "acc.burden": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "acc.alt": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "loss.decay.live": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "loss.decay.restored": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "loss.decay.inForce": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "prop.rate": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "pref.modRange": {
+  "value": 2,
+  "status": "placeholder"
+ },
+ "pref.modDecay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "edu.rate": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "admin.routineOverhead": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "slate.existential": {
+  "value": 10,
+  "status": "placeholder"
+ },
+ "slate.structural": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "slate.routine": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "observe.liveThresholdPerPop": {
+  "value": 0.001,
+  "status": "placeholder"
+ },
+ "observe.estimateFraction": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "defect.threshold": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "war.k.charge": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.k.armor1": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "war.k.armor2": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "war.skirmish.harass": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "war.flank": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "war.cohesion.win": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "war.cohesion.loss": {
+  "value": 0.08,
+  "status": "placeholder"
+ },
+ "war.rout.threshold": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "war.supply.decay": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "war.supply.infraRelief": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.gunpowder.bonus": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.siege.rate": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.siege.defRate": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.siege.capture": {
+  "value": 100,
+  "status": "placeholder"
+ },
+ "war.blockade.mult": {
+  "value": 3,
+  "status": "placeholder"
+ },
+ "war.wounded.share": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.wounded.delay": {
+  "value": 3,
+  "status": "placeholder"
+ },
+ "war.garrison.perPop": {
+  "value": 0.001,
+  "status": "placeholder"
+ },
+ "war.martialLaw.control": {
+  "value": 0.002,
+  "status": "placeholder"
+ },
+ "war.martialLaw.raise": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.uprising.base": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.forest.block": {
+  "value": 80,
+  "status": "placeholder"
+ },
+ "war.spread.max": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "war.river.cost": {
+  "value": 1.5,
+  "status": "placeholder"
+ },
+ "war.training.k": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "war.training.decay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "war.peace.scoreWeight": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "eps.cb": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "cb.decay.Grievance": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "cb.decay.Rights": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "cb.decay.Sovereignty": {
+  "value": 0.04,
+  "status": "placeholder"
+ },
+ "cb.decay.Existential": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "overreach.k": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "gp.share": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "leverage.decay": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "conceal.act.low": {
+  "value": 2,
+  "status": "placeholder"
+ },
+ "conceal.act.medium": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "conceal.act.high": {
+  "value": 10,
+  "status": "placeholder"
+ },
+ "conceal.sender.low": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "conceal.sender.medium": {
+  "value": 9,
+  "status": "placeholder"
+ },
+ "conceal.sender.high": {
+  "value": 16,
+  "status": "placeholder"
+ },
+ "conceal.falseFlag": {
+  "value": 20,
+  "status": "placeholder"
+ },
+ "thresholds.espionage.influence": {
+  "value": 6,
+  "status": "placeholder"
+ },
+ "thresholds.foreignPropaganda.overt": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "thresholds.foreignPropaganda.covert": {
+  "value": 8,
+  "status": "placeholder"
+ },
+ "yield.baseline": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "yield.timberPerForest": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "cash.wealthFraction": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "credit.reservePerCap": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "aware.base": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "aware.k": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "acc.altScale": {
+  "value": 1000,
+  "status": "placeholder"
+ },
+ "infra.costPerCap": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "infra.richPerCap": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "infra.delta": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "infra.decay": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "hoard.frac": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "defy.risk": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "petition.effect": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "cell.minUtility": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "war.casualty.rate": {
+  "value": 0.15,
+  "status": "placeholder"
+ },
+ "war.harm.k": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "war.harm.decay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "war.occ.harm": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "war.field.goodsPerMan": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "war.pursuit": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "war.peace.cede": {
+  "value": 2,
+  "status": "placeholder"
+ },
+ "war.peace.exh": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.attack.rung": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.siege.turns": {
+  "value": 8,
+  "status": "placeholder"
+ },
+ "mob.eligibleShare": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "mob.originGain": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "mob.destResent": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "demo.rate": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "demo.control": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "demo.opinion": {
+  "value": 1.5,
+  "status": "placeholder"
+ },
+ "demo.opinionDecay": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "demo.destResent": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "conv.eps": {
+  "value": 1e-06,
+  "status": "placeholder"
+ },
+ "conv.force": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "prop.resist": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "cprop.k": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "cprop.frac": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "teach.value": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "civil.revolt": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "civil.minMen": {
+  "value": 10,
+  "status": "placeholder"
+ },
+ "civil.secede.turns": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "civil.calm.turns": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "civil.martial.turns": {
+  "value": 8,
+  "status": "placeholder"
+ },
+ "civil.suppress.opinion": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "civil.concession": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "civil.secedeValue": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "civil.independenceHold": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "rep.break": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "rep.allianceBonus": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "rep.recognize": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "rep.sanction": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "closeness.Guarantee": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "closeness.BenevolentNeutrality": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "closeness.Defensive": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "closeness.Coalition": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "closeness.StandingOffensive": {
+  "value": 0.7,
+  "status": "placeholder"
+ },
+ "closeness.Confederation": {
+  "value": 0.9,
+  "status": "placeholder"
+ },
+ "closeness.Dependency": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "closeness.kin": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "overreach.tradeNorm": {
+  "value": 100,
+  "status": "placeholder"
+ },
+ "gp.milWeight": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "leverage.exhaustion": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "cb.nationalism.share": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "cb.militaristic.wars": {
+  "value": 3,
+  "status": "placeholder"
+ },
+ "cb.mag.break": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "cb.mag.recognize": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "cb.mag.sanction": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "treaty.proposalTTL": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "treaty.rep": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "treaty.bn": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "treaty.pact": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "treaty.pactBurden": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "treaty.guaranteeBurden": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "treaty.guaranteeBenefit": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "treaty.axisBurden": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "treaty.axisGain": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "treaty.depBenefit": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "treaty.coop": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "treaty.conf": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "treaty.enemy": {
+  "value": 0.4,
+  "status": "placeholder"
+ },
+ "treaty.cellAxisCost": {
+  "value": 0.15,
+  "status": "placeholder"
+ },
+ "treaty.cellPactCost": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "treaty.cellCoopRelief": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "veto.repMin": {
+  "value": -0.5,
+  "status": "placeholder"
+ },
+ "recog.hold": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "recog.standing": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.peace.treaty": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "rep.breakClose": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "treaty.confAxisShare": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "treaty.cellConfShare": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "pop.growth": {
+  "value": 0.01,
+  "status": "authored"
+ }
+}

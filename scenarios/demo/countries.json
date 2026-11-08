@@ -1,0 +1,22 @@
+{
+ "countries": {
+  "vantiria": {
+   "name": "Empire of Vantiria",
+   "color": "#c0392b",
+   "titularNations": [
+    "vantir"
+   ],
+   "isPlayer": true,
+   "aiProfile": null
+  },
+  "kerinia": {
+   "name": "Kerinian Khanate",
+   "color": "#2980b9",
+   "titularNations": [
+    "kerin"
+   ],
+   "isPlayer": false,
+   "aiProfile": "default"
+  }
+ }
+}

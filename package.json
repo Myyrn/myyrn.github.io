@@ -1,0 +1,12 @@
+{
+  "name": "elental",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/kernel.test.js tests/worldmap.test.js tests/engine.test.js tests/econ_polity.test.js tests/client.test.js tests/behaviour.test.js tests/war.test.js tests/editor.test.js tests/politics_remaining.test.js tests/internal_conflict.test.js tests/diplomacy.test.js tests/population.test.js tests/ui.test.js",
+    "serve": "python3 serve.py",
+    "headless": "node tools/headless.mjs demo 20",
+    "build:data": "node tools/buildRuleset.mjs && node tools/makeDemo.mjs",
+    "ui:smoke": "python3 tools/ui_smoke.py"
+  }
+}

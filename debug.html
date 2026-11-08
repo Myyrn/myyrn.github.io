@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elental — debug shell (raw)</title>
+<style>
+ :root{--bg:#f6f4ef;--fg:#222;--panel:#fff;--line:#d8d3c8;--accent:#8a3b12}
+ @media (prefers-color-scheme:dark){:root{--bg:#1b1a18;--fg:#e8e4da;--panel:#26241f;--line:#3d3a33;--accent:#e0a36b}}
+ *{box-sizing:border-box} body{margin:0;font:13px/1.4 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+ header{display:flex;gap:12px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+ main{display:grid;grid-template-columns:minmax(320px,1fr) 380px;gap:10px;padding:10px} @media(max-width:900px){main{grid-template-columns:1fr}}
+ .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:10px}
+ h3{margin:0 0 6px;font-size:13px;color:var(--accent)} button,select,input{font:inherit;padding:3px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--fg)}
+ button{cursor:pointer} button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+ table{border-collapse:collapse;width:100%} td,th{padding:2px 4px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums} th:first-child,td:first-child{text-align:left}
+ #mapwrap{overflow:auto} canvas{display:block;max-width:100%} .muted{opacity:.65} .row{display:flex;gap:6px;align-items:center;margin:4px 0;flex-wrap:wrap}
+</style></head>
+<body>
+<header><strong>Elental</strong><span id="scn" class="muted"></span><span>Turn <b id="turn">0</b></span>
+ <label>Country <select id="country"></select></label><label>Lens <select id="lens"></select></label>
+ <button id="end" class="primary">End Turn</button><button id="run10">Run 10</button><span id="status" class="muted"></span></header>
+<main>
+ <div><div class="card" id="mapwrap"><canvas id="map"></canvas></div><div class="card"><h3>Selected province</h3><div id="prov" class="muted">click a hex</div></div>
+  <div class="card"><h3>Cells (Nation | Estate | Region)</h3><div style="max-height:260px;overflow:auto"><table id="cells"></table></div></div></div>
+ <div>
+  <div class="card"><h3>Government</h3><div id="gov"></div></div>
+  <div class="card"><h3>Orders</h3>
+   <div class="row">Tax market <input id="taxm" type="number" step="0.01" min="0" max="1" value="0.05" style="width:64px"> wealth <input id="taxw" type="number" step="0.01" min="0" max="1" value="0" style="width:64px"> <button id="qtax">Queue setTaxLaw</button></div>
+   <div class="row">Requisition <select id="reqgood"></select> <input id="reqamt" type="number" step="0.05" min="0" max="1" value="0.1" style="width:64px"> <button id="qreq">Queue</button></div>
+   <div class="row"><button id="qctl">Control: surplus to all cells</button> <button id="clear">Clear orders</button></div><div id="orders" class="muted">no orders queued</div></div>
+  <div class="card"><h3>War</h3>
+   <div class="row"><button id="qwar">Declare war on the other Country</button> <button id="qpeace">Propose peace: take selected province</button></div>
+   <div class="row"><button id="qfield">Field army at selected province (50% Shock Infantry)</button></div>
+   <div class="row"><select id="armysel"></select> <button id="qmove">Move to selected province</button> <select id="tactic"><option>balanced</option><option>aggressive</option><option>defensive</option></select> <button id="qtactic">Tactic</button></div>
+   <div id="wars" class="muted">no wars</div><table id="armies"></table></div>
+  <div class="card"><h3>History</h3><table id="hist"></table></div>
+  <div class="card"><h3>Last report</h3><div id="report" class="muted">—</div></div>
+ </div>
+</main>
+<script type="module" src="src/ui/debugShell.js"></script>
+</body></html>

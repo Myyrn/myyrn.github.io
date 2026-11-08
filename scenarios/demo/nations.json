@@ -1,0 +1,505 @@
+{
+ "nations": {
+  "vantir": {
+   "name": "Vantirians",
+   "color": "#c0392b",
+   "reactionTemperament": 0.6,
+   "poolAffinity": {
+    "Agriculture": 1.1
+   },
+   "prefTraits": {}
+  },
+  "kerin": {
+   "name": "Kerin",
+   "color": "#2980b9",
+   "reactionTemperament": 0.5,
+   "poolAffinity": {
+    "Cavalry": 1.3
+   },
+   "prefTraits": {}
+  },
+  "dorn": {
+   "name": "Dornish",
+   "color": "#27ae60",
+   "reactionTemperament": 0.8,
+   "poolAffinity": {
+    "Mining": 1.2
+   },
+   "prefTraits": {}
+  }
+ },
+ "presence": {
+  "p:2,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:3,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:4,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:5,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:6,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:7,0": {
+   "vantir": 96,
+   "dorn": 24
+  },
+  "p:8,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:9,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:10,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:11,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:12,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:13,0": {
+   "kerin": 96,
+   "dorn": 24
+  },
+  "p:2,1": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,1": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,1": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,1": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,1": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:7,1": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:8,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,1": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,2": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,2": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,2": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,2": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,2": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:7,2": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:8,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,2": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,3": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,3": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,3": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,3": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,3": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:7,3": {
+   "vantir": 32,
+   "dorn": 8
+  },
+  "p:8,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,3": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,4": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,4": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,4": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,4": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,4": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,4": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,5": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,5": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,5": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,5": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,5": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,5": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:7,6": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,6": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:7,7": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,7": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:7,8": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,8": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:2,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:3,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:4,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:5,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:6,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:7,9": {
+   "vantir": 320,
+   "dorn": 80
+  },
+  "p:8,9": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:9,9": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:10,9": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:11,9": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:12,9": {
+   "kerin": 320,
+   "dorn": 80
+  },
+  "p:13,9": {
+   "kerin": 320,
+   "dorn": 80
+  }
+ }
+}

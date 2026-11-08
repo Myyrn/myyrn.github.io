@@ -1,0 +1,1135 @@
+{
+ "estates": {
+  "peasants": {
+   "label": "Peasantry",
+   "populationShare": 0.92,
+   "prefBaseline": {
+    "extraction_investment": 0.3,
+    "conservatism_reformism": -0.2
+   },
+   "wealthPerCap": 0.5,
+   "labourShare": {
+    "Agriculture": 0.4,
+    "Mining": 0.04,
+    "Woodcraft": 0.04,
+    "Fishing": 0.01,
+    "Crafting/Industry": 0.2,
+    "Trade/Commerce": 0.02,
+    "Medicine": 0.01,
+    "Builders": 0.01,
+    "Teaching": 0.005,
+    "Culture": 0.005,
+    "Shock Infantry": 0.02,
+    "Pike Infantry": 0.01,
+    "Skirmishers": 0.01
+   }
+  },
+  "nobility": {
+   "label": "Nobility",
+   "populationShare": 0.08,
+   "prefBaseline": {
+    "extraction_investment": -0.5,
+    "conservatism_reformism": -0.6
+   },
+   "wealthPerCap": 6,
+   "labourShare": {
+    "Bureaucrats": 0.25,
+    "Cavalry": 0.15,
+    "Diplomacy": 0.05,
+    "Culture": 0.05,
+    "Teaching": 0.05
+   }
+  }
+ },
+ "lawTemplates": {
+  "default": {
+   "rights": {
+    "Council": [
+     {
+      "scope": {
+       "kind": "estate",
+       "estate": "nobility"
+      },
+      "value": true,
+      "declaredTurn": 0
+     }
+    ],
+    "Veto.taxLaw": [
+     {
+      "scope": {
+       "kind": "estate",
+       "estate": "nobility"
+      },
+      "value": true,
+      "declaredTurn": 0
+     }
+    ],
+    "Veto.market": [
+     {
+      "scope": {
+       "kind": "estate",
+       "estate": "nobility"
+      },
+      "value": true,
+      "declaredTurn": 0
+     }
+    ]
+   },
+   "duties": {
+    "Taxation": [
+     {
+      "scope": {
+       "kind": "empire"
+      },
+      "value": {
+       "market": 0.05,
+       "wealth": 0
+      },
+      "declaredTurn": 0
+     }
+    ]
+   },
+   "requisitions": []
+  }
+ },
+ "countryLaws": {
+  "vantiria": {
+   "template": "default"
+  },
+  "kerinia": {
+   "template": "default"
+  }
+ },
+ "cells": {
+  "kerin|peasants|r1": {
+   "population": 942,
+   "wealth": 471,
+   "labour": {
+    "Agriculture": 377,
+    "Mining": 38,
+    "Woodcraft": 38,
+    "Fishing": 9,
+    "Crafting/Industry": 188,
+    "Trade/Commerce": 19,
+    "Medicine": 9,
+    "Builders": 9,
+    "Teaching": 5,
+    "Culture": 5,
+    "Shock Infantry": 19,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
+   }
+  },
+  "kerin|nobility|r1": {
+   "population": 82,
+   "wealth": 492,
+   "labour": {
+    "Bureaucrats": 21,
+    "Cavalry": 12,
+    "Diplomacy": 4,
+    "Culture": 4,
+    "Teaching": 4
+   }
+  },
+  "dorn|peasants|r1": {
+   "population": 236,
+   "wealth": 118,
+   "labour": {
+    "Agriculture": 94,
+    "Mining": 9,
+    "Woodcraft": 9,
+    "Fishing": 2,
+    "Crafting/Industry": 47,
+    "Trade/Commerce": 5,
+    "Medicine": 2,
+    "Builders": 2,
+    "Teaching": 1,
+    "Culture": 1,
+    "Shock Infantry": 5,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
+   }
+  },
+  "dorn|nobility|r1": {
+   "population": 20,
+   "wealth": 120,
+   "labour": {
+    "Bureaucrats": 5,
+    "Cavalry": 3,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "kerin|peasants|r2": {
+   "population": 2355,
+   "wealth": 1178,
+   "labour": {
+    "Agriculture": 942,
+    "Mining": 94,
+    "Woodcraft": 94,
+    "Fishing": 24,
+    "Crafting/Industry": 471,
+    "Trade/Commerce": 47,
+    "Medicine": 24,
+    "Builders": 24,
+    "Teaching": 12,
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
+   }
+  },
+  "kerin|nobility|r2": {
+   "population": 205,
+   "wealth": 1230,
+   "labour": {
+    "Bureaucrats": 51,
+    "Cavalry": 31,
+    "Diplomacy": 10,
+    "Culture": 10,
+    "Teaching": 10
+   }
+  },
+  "dorn|peasants|r2": {
+   "population": 589,
+   "wealth": 295,
+   "labour": {
+    "Agriculture": 236,
+    "Mining": 24,
+    "Woodcraft": 24,
+    "Fishing": 6,
+    "Crafting/Industry": 118,
+    "Trade/Commerce": 12,
+    "Medicine": 6,
+    "Builders": 6,
+    "Teaching": 3,
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
+   }
+  },
+  "dorn|nobility|r2": {
+   "population": 51,
+   "wealth": 306,
+   "labour": {
+    "Bureaucrats": 13,
+    "Cavalry": 8,
+    "Diplomacy": 3,
+    "Culture": 3,
+    "Teaching": 3
+   }
+  },
+  "kerin|peasants|r3": {
+   "population": 1766,
+   "wealth": 883,
+   "labour": {
+    "Agriculture": 706,
+    "Mining": 71,
+    "Woodcraft": 71,
+    "Fishing": 18,
+    "Crafting/Industry": 353,
+    "Trade/Commerce": 35,
+    "Medicine": 18,
+    "Builders": 18,
+    "Teaching": 9,
+    "Culture": 9,
+    "Shock Infantry": 35,
+    "Pike Infantry": 18,
+    "Skirmishers": 18
+   }
+  },
+  "kerin|nobility|r3": {
+   "population": 154,
+   "wealth": 924,
+   "labour": {
+    "Bureaucrats": 39,
+    "Cavalry": 23,
+    "Diplomacy": 8,
+    "Culture": 8,
+    "Teaching": 8
+   }
+  },
+  "dorn|peasants|r3": {
+   "population": 442,
+   "wealth": 221,
+   "labour": {
+    "Agriculture": 177,
+    "Mining": 18,
+    "Woodcraft": 18,
+    "Fishing": 4,
+    "Crafting/Industry": 88,
+    "Trade/Commerce": 9,
+    "Medicine": 4,
+    "Builders": 4,
+    "Teaching": 2,
+    "Culture": 2,
+    "Shock Infantry": 9,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
+   }
+  },
+  "dorn|nobility|r3": {
+   "population": 38,
+   "wealth": 228,
+   "labour": {
+    "Bureaucrats": 10,
+    "Cavalry": 6,
+    "Diplomacy": 2,
+    "Culture": 2,
+    "Teaching": 2
+   }
+  },
+  "kerin|peasants|r4": {
+   "population": 2061,
+   "wealth": 1031,
+   "labour": {
+    "Agriculture": 824,
+    "Mining": 82,
+    "Woodcraft": 82,
+    "Fishing": 21,
+    "Crafting/Industry": 412,
+    "Trade/Commerce": 41,
+    "Medicine": 21,
+    "Builders": 21,
+    "Teaching": 10,
+    "Culture": 10,
+    "Shock Infantry": 41,
+    "Pike Infantry": 21,
+    "Skirmishers": 21
+   }
+  },
+  "kerin|nobility|r4": {
+   "population": 179,
+   "wealth": 1074,
+   "labour": {
+    "Bureaucrats": 45,
+    "Cavalry": 27,
+    "Diplomacy": 9,
+    "Culture": 9,
+    "Teaching": 9
+   }
+  },
+  "dorn|peasants|r4": {
+   "population": 515,
+   "wealth": 258,
+   "labour": {
+    "Agriculture": 206,
+    "Mining": 21,
+    "Woodcraft": 21,
+    "Fishing": 5,
+    "Crafting/Industry": 103,
+    "Trade/Commerce": 10,
+    "Medicine": 5,
+    "Builders": 5,
+    "Teaching": 3,
+    "Culture": 3,
+    "Shock Infantry": 10,
+    "Pike Infantry": 5,
+    "Skirmishers": 5
+   }
+  },
+  "dorn|nobility|r4": {
+   "population": 45,
+   "wealth": 270,
+   "labour": {
+    "Bureaucrats": 11,
+    "Cavalry": 7,
+    "Diplomacy": 2,
+    "Culture": 2,
+    "Teaching": 2
+   }
+  },
+  "kerin|peasants|r5": {
+   "population": 2355,
+   "wealth": 1178,
+   "labour": {
+    "Agriculture": 942,
+    "Mining": 94,
+    "Woodcraft": 94,
+    "Fishing": 24,
+    "Crafting/Industry": 471,
+    "Trade/Commerce": 47,
+    "Medicine": 24,
+    "Builders": 24,
+    "Teaching": 12,
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
+   }
+  },
+  "kerin|nobility|r5": {
+   "population": 205,
+   "wealth": 1230,
+   "labour": {
+    "Bureaucrats": 51,
+    "Cavalry": 31,
+    "Diplomacy": 10,
+    "Culture": 10,
+    "Teaching": 10
+   }
+  },
+  "dorn|peasants|r5": {
+   "population": 589,
+   "wealth": 295,
+   "labour": {
+    "Agriculture": 236,
+    "Mining": 24,
+    "Woodcraft": 24,
+    "Fishing": 6,
+    "Crafting/Industry": 118,
+    "Trade/Commerce": 12,
+    "Medicine": 6,
+    "Builders": 6,
+    "Teaching": 3,
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
+   }
+  },
+  "dorn|nobility|r5": {
+   "population": 51,
+   "wealth": 306,
+   "labour": {
+    "Bureaucrats": 13,
+    "Cavalry": 8,
+    "Diplomacy": 3,
+    "Culture": 3,
+    "Teaching": 3
+   }
+  },
+  "kerin|peasants|r6": {
+   "population": 1060,
+   "wealth": 530,
+   "labour": {
+    "Agriculture": 424,
+    "Mining": 42,
+    "Woodcraft": 42,
+    "Fishing": 11,
+    "Crafting/Industry": 212,
+    "Trade/Commerce": 21,
+    "Medicine": 11,
+    "Builders": 11,
+    "Teaching": 5,
+    "Culture": 5,
+    "Shock Infantry": 21,
+    "Pike Infantry": 11,
+    "Skirmishers": 11
+   }
+  },
+  "kerin|nobility|r6": {
+   "population": 92,
+   "wealth": 552,
+   "labour": {
+    "Bureaucrats": 23,
+    "Cavalry": 14,
+    "Diplomacy": 5,
+    "Culture": 5,
+    "Teaching": 5
+   }
+  },
+  "dorn|peasants|r6": {
+   "population": 265,
+   "wealth": 133,
+   "labour": {
+    "Agriculture": 106,
+    "Mining": 11,
+    "Woodcraft": 11,
+    "Fishing": 3,
+    "Crafting/Industry": 53,
+    "Trade/Commerce": 5,
+    "Medicine": 3,
+    "Builders": 3,
+    "Teaching": 1,
+    "Culture": 1,
+    "Shock Infantry": 5,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
+   }
+  },
+  "dorn|nobility|r6": {
+   "population": 23,
+   "wealth": 138,
+   "labour": {
+    "Bureaucrats": 6,
+    "Cavalry": 3,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "kerin|peasants|r7": {
+   "population": 1766,
+   "wealth": 883,
+   "labour": {
+    "Agriculture": 706,
+    "Mining": 71,
+    "Woodcraft": 71,
+    "Fishing": 18,
+    "Crafting/Industry": 353,
+    "Trade/Commerce": 35,
+    "Medicine": 18,
+    "Builders": 18,
+    "Teaching": 9,
+    "Culture": 9,
+    "Shock Infantry": 35,
+    "Pike Infantry": 18,
+    "Skirmishers": 18
+   }
+  },
+  "kerin|nobility|r7": {
+   "population": 154,
+   "wealth": 924,
+   "labour": {
+    "Bureaucrats": 39,
+    "Cavalry": 23,
+    "Diplomacy": 8,
+    "Culture": 8,
+    "Teaching": 8
+   }
+  },
+  "dorn|peasants|r7": {
+   "population": 442,
+   "wealth": 221,
+   "labour": {
+    "Agriculture": 177,
+    "Mining": 18,
+    "Woodcraft": 18,
+    "Fishing": 4,
+    "Crafting/Industry": 88,
+    "Trade/Commerce": 9,
+    "Medicine": 4,
+    "Builders": 4,
+    "Teaching": 2,
+    "Culture": 2,
+    "Shock Infantry": 9,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
+   }
+  },
+  "dorn|nobility|r7": {
+   "population": 38,
+   "wealth": 228,
+   "labour": {
+    "Bureaucrats": 10,
+    "Cavalry": 6,
+    "Diplomacy": 2,
+    "Culture": 2,
+    "Teaching": 2
+   }
+  },
+  "kerin|peasants|r8": {
+   "population": 2650,
+   "wealth": 1325,
+   "labour": {
+    "Agriculture": 1060,
+    "Mining": 106,
+    "Woodcraft": 106,
+    "Fishing": 27,
+    "Crafting/Industry": 530,
+    "Trade/Commerce": 53,
+    "Medicine": 27,
+    "Builders": 27,
+    "Teaching": 13,
+    "Culture": 13,
+    "Shock Infantry": 53,
+    "Pike Infantry": 27,
+    "Skirmishers": 27
+   }
+  },
+  "kerin|nobility|r8": {
+   "population": 230,
+   "wealth": 1380,
+   "labour": {
+    "Bureaucrats": 58,
+    "Cavalry": 35,
+    "Diplomacy": 12,
+    "Culture": 12,
+    "Teaching": 12
+   }
+  },
+  "dorn|peasants|r8": {
+   "population": 662,
+   "wealth": 331,
+   "labour": {
+    "Agriculture": 265,
+    "Mining": 26,
+    "Woodcraft": 26,
+    "Fishing": 7,
+    "Crafting/Industry": 132,
+    "Trade/Commerce": 13,
+    "Medicine": 7,
+    "Builders": 7,
+    "Teaching": 3,
+    "Culture": 3,
+    "Shock Infantry": 13,
+    "Pike Infantry": 7,
+    "Skirmishers": 7
+   }
+  },
+  "dorn|nobility|r8": {
+   "population": 58,
+   "wealth": 348,
+   "labour": {
+    "Bureaucrats": 15,
+    "Cavalry": 9,
+    "Diplomacy": 3,
+    "Culture": 3,
+    "Teaching": 3
+   }
+  },
+  "kerin|peasants|r9": {
+   "population": 1472,
+   "wealth": 736,
+   "labour": {
+    "Agriculture": 589,
+    "Mining": 59,
+    "Woodcraft": 59,
+    "Fishing": 15,
+    "Crafting/Industry": 294,
+    "Trade/Commerce": 29,
+    "Medicine": 15,
+    "Builders": 15,
+    "Teaching": 7,
+    "Culture": 7,
+    "Shock Infantry": 29,
+    "Pike Infantry": 15,
+    "Skirmishers": 15
+   }
+  },
+  "kerin|nobility|r9": {
+   "population": 128,
+   "wealth": 768,
+   "labour": {
+    "Bureaucrats": 32,
+    "Cavalry": 19,
+    "Diplomacy": 6,
+    "Culture": 6,
+    "Teaching": 6
+   }
+  },
+  "dorn|peasants|r9": {
+   "population": 368,
+   "wealth": 184,
+   "labour": {
+    "Agriculture": 147,
+    "Mining": 15,
+    "Woodcraft": 15,
+    "Fishing": 4,
+    "Crafting/Industry": 74,
+    "Trade/Commerce": 7,
+    "Medicine": 4,
+    "Builders": 4,
+    "Teaching": 2,
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
+   }
+  },
+  "dorn|nobility|r9": {
+   "population": 32,
+   "wealth": 192,
+   "labour": {
+    "Bureaucrats": 8,
+    "Cavalry": 5,
+    "Diplomacy": 2,
+    "Culture": 2,
+    "Teaching": 2
+   }
+  },
+  "vantir|peasants|r10": {
+   "population": 854,
+   "wealth": 427,
+   "labour": {
+    "Agriculture": 342,
+    "Mining": 34,
+    "Woodcraft": 34,
+    "Fishing": 9,
+    "Crafting/Industry": 171,
+    "Trade/Commerce": 17,
+    "Medicine": 9,
+    "Builders": 9,
+    "Teaching": 4,
+    "Culture": 4,
+    "Shock Infantry": 17,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
+   }
+  },
+  "vantir|nobility|r10": {
+   "population": 74,
+   "wealth": 444,
+   "labour": {
+    "Bureaucrats": 19,
+    "Cavalry": 11,
+    "Diplomacy": 4,
+    "Culture": 4,
+    "Teaching": 4
+   }
+  },
+  "dorn|peasants|r10": {
+   "population": 213,
+   "wealth": 107,
+   "labour": {
+    "Agriculture": 85,
+    "Mining": 9,
+    "Woodcraft": 9,
+    "Fishing": 2,
+    "Crafting/Industry": 43,
+    "Trade/Commerce": 4,
+    "Medicine": 2,
+    "Builders": 2,
+    "Teaching": 1,
+    "Culture": 1,
+    "Shock Infantry": 4,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
+   }
+  },
+  "dorn|nobility|r10": {
+   "population": 19,
+   "wealth": 114,
+   "labour": {
+    "Bureaucrats": 5,
+    "Cavalry": 3,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "vantir|peasants|r11": {
+   "population": 3238,
+   "wealth": 1619,
+   "labour": {
+    "Agriculture": 1295,
+    "Mining": 130,
+    "Woodcraft": 130,
+    "Fishing": 32,
+    "Crafting/Industry": 648,
+    "Trade/Commerce": 65,
+    "Medicine": 32,
+    "Builders": 32,
+    "Teaching": 16,
+    "Culture": 16,
+    "Shock Infantry": 65,
+    "Pike Infantry": 32,
+    "Skirmishers": 32
+   }
+  },
+  "vantir|nobility|r11": {
+   "population": 282,
+   "wealth": 1692,
+   "labour": {
+    "Bureaucrats": 71,
+    "Cavalry": 42,
+    "Diplomacy": 14,
+    "Culture": 14,
+    "Teaching": 14
+   }
+  },
+  "dorn|peasants|r11": {
+   "population": 810,
+   "wealth": 405,
+   "labour": {
+    "Agriculture": 324,
+    "Mining": 32,
+    "Woodcraft": 32,
+    "Fishing": 8,
+    "Crafting/Industry": 162,
+    "Trade/Commerce": 16,
+    "Medicine": 8,
+    "Builders": 8,
+    "Teaching": 4,
+    "Culture": 4,
+    "Shock Infantry": 16,
+    "Pike Infantry": 8,
+    "Skirmishers": 8
+   }
+  },
+  "dorn|nobility|r11": {
+   "population": 70,
+   "wealth": 420,
+   "labour": {
+    "Bureaucrats": 18,
+    "Cavalry": 11,
+    "Diplomacy": 4,
+    "Culture": 4,
+    "Teaching": 4
+   }
+  },
+  "vantir|peasants|r12": {
+   "population": 1325,
+   "wealth": 663,
+   "labour": {
+    "Agriculture": 530,
+    "Mining": 53,
+    "Woodcraft": 53,
+    "Fishing": 13,
+    "Crafting/Industry": 265,
+    "Trade/Commerce": 27,
+    "Medicine": 13,
+    "Builders": 13,
+    "Teaching": 7,
+    "Culture": 7,
+    "Shock Infantry": 27,
+    "Pike Infantry": 13,
+    "Skirmishers": 13
+   }
+  },
+  "vantir|nobility|r12": {
+   "population": 115,
+   "wealth": 690,
+   "labour": {
+    "Bureaucrats": 29,
+    "Cavalry": 17,
+    "Diplomacy": 6,
+    "Culture": 6,
+    "Teaching": 6
+   }
+  },
+  "dorn|peasants|r12": {
+   "population": 331,
+   "wealth": 166,
+   "labour": {
+    "Agriculture": 132,
+    "Mining": 13,
+    "Woodcraft": 13,
+    "Fishing": 3,
+    "Crafting/Industry": 66,
+    "Trade/Commerce": 7,
+    "Medicine": 3,
+    "Builders": 3,
+    "Teaching": 2,
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
+   }
+  },
+  "dorn|nobility|r12": {
+   "population": 29,
+   "wealth": 174,
+   "labour": {
+    "Bureaucrats": 7,
+    "Cavalry": 4,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "vantir|peasants|r13": {
+   "population": 2944,
+   "wealth": 1472,
+   "labour": {
+    "Agriculture": 1178,
+    "Mining": 118,
+    "Woodcraft": 118,
+    "Fishing": 29,
+    "Crafting/Industry": 589,
+    "Trade/Commerce": 59,
+    "Medicine": 29,
+    "Builders": 29,
+    "Teaching": 15,
+    "Culture": 15,
+    "Shock Infantry": 59,
+    "Pike Infantry": 29,
+    "Skirmishers": 29
+   }
+  },
+  "vantir|nobility|r13": {
+   "population": 256,
+   "wealth": 1536,
+   "labour": {
+    "Bureaucrats": 64,
+    "Cavalry": 38,
+    "Diplomacy": 13,
+    "Culture": 13,
+    "Teaching": 13
+   }
+  },
+  "dorn|peasants|r13": {
+   "population": 736,
+   "wealth": 368,
+   "labour": {
+    "Agriculture": 294,
+    "Mining": 29,
+    "Woodcraft": 29,
+    "Fishing": 7,
+    "Crafting/Industry": 147,
+    "Trade/Commerce": 15,
+    "Medicine": 7,
+    "Builders": 7,
+    "Teaching": 4,
+    "Culture": 4,
+    "Shock Infantry": 15,
+    "Pike Infantry": 7,
+    "Skirmishers": 7
+   }
+  },
+  "dorn|nobility|r13": {
+   "population": 64,
+   "wealth": 384,
+   "labour": {
+    "Bureaucrats": 16,
+    "Cavalry": 10,
+    "Diplomacy": 3,
+    "Culture": 3,
+    "Teaching": 3
+   }
+  },
+  "vantir|peasants|r14": {
+   "population": 1178,
+   "wealth": 589,
+   "labour": {
+    "Agriculture": 471,
+    "Mining": 47,
+    "Woodcraft": 47,
+    "Fishing": 12,
+    "Crafting/Industry": 236,
+    "Trade/Commerce": 24,
+    "Medicine": 12,
+    "Builders": 12,
+    "Teaching": 6,
+    "Culture": 6,
+    "Shock Infantry": 24,
+    "Pike Infantry": 12,
+    "Skirmishers": 12
+   }
+  },
+  "vantir|nobility|r14": {
+   "population": 102,
+   "wealth": 612,
+   "labour": {
+    "Bureaucrats": 26,
+    "Cavalry": 15,
+    "Diplomacy": 5,
+    "Culture": 5,
+    "Teaching": 5
+   }
+  },
+  "dorn|peasants|r14": {
+   "population": 294,
+   "wealth": 147,
+   "labour": {
+    "Agriculture": 118,
+    "Mining": 12,
+    "Woodcraft": 12,
+    "Fishing": 3,
+    "Crafting/Industry": 59,
+    "Trade/Commerce": 6,
+    "Medicine": 3,
+    "Builders": 3,
+    "Teaching": 1,
+    "Culture": 1,
+    "Shock Infantry": 6,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
+   }
+  },
+  "dorn|nobility|r14": {
+   "population": 26,
+   "wealth": 156,
+   "labour": {
+    "Bureaucrats": 7,
+    "Cavalry": 4,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "vantir|peasants|r15": {
+   "population": 1472,
+   "wealth": 736,
+   "labour": {
+    "Agriculture": 589,
+    "Mining": 59,
+    "Woodcraft": 59,
+    "Fishing": 15,
+    "Crafting/Industry": 294,
+    "Trade/Commerce": 29,
+    "Medicine": 15,
+    "Builders": 15,
+    "Teaching": 7,
+    "Culture": 7,
+    "Shock Infantry": 29,
+    "Pike Infantry": 15,
+    "Skirmishers": 15
+   }
+  },
+  "vantir|nobility|r15": {
+   "population": 128,
+   "wealth": 768,
+   "labour": {
+    "Bureaucrats": 32,
+    "Cavalry": 19,
+    "Diplomacy": 6,
+    "Culture": 6,
+    "Teaching": 6
+   }
+  },
+  "dorn|peasants|r15": {
+   "population": 368,
+   "wealth": 184,
+   "labour": {
+    "Agriculture": 147,
+    "Mining": 15,
+    "Woodcraft": 15,
+    "Fishing": 4,
+    "Crafting/Industry": 74,
+    "Trade/Commerce": 7,
+    "Medicine": 4,
+    "Builders": 4,
+    "Teaching": 2,
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
+   }
+  },
+  "dorn|nobility|r15": {
+   "population": 32,
+   "wealth": 192,
+   "labour": {
+    "Bureaucrats": 8,
+    "Cavalry": 5,
+    "Diplomacy": 2,
+    "Culture": 2,
+    "Teaching": 2
+   }
+  },
+  "vantir|peasants|r16": {
+   "population": 883,
+   "wealth": 442,
+   "labour": {
+    "Agriculture": 353,
+    "Mining": 35,
+    "Woodcraft": 35,
+    "Fishing": 9,
+    "Crafting/Industry": 177,
+    "Trade/Commerce": 18,
+    "Medicine": 9,
+    "Builders": 9,
+    "Teaching": 4,
+    "Culture": 4,
+    "Shock Infantry": 18,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
+   }
+  },
+  "vantir|nobility|r16": {
+   "population": 77,
+   "wealth": 462,
+   "labour": {
+    "Bureaucrats": 19,
+    "Cavalry": 12,
+    "Diplomacy": 4,
+    "Culture": 4,
+    "Teaching": 4
+   }
+  },
+  "dorn|peasants|r16": {
+   "population": 221,
+   "wealth": 111,
+   "labour": {
+    "Agriculture": 88,
+    "Mining": 9,
+    "Woodcraft": 9,
+    "Fishing": 2,
+    "Crafting/Industry": 44,
+    "Trade/Commerce": 4,
+    "Medicine": 2,
+    "Builders": 2,
+    "Teaching": 1,
+    "Culture": 1,
+    "Shock Infantry": 4,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
+   }
+  },
+  "dorn|nobility|r16": {
+   "population": 19,
+   "wealth": 114,
+   "labour": {
+    "Bureaucrats": 5,
+    "Cavalry": 3,
+    "Diplomacy": 1,
+    "Culture": 1,
+    "Teaching": 1
+   }
+  },
+  "vantir|peasants|r17": {
+   "population": 2355,
+   "wealth": 1178,
+   "labour": {
+    "Agriculture": 942,
+    "Mining": 94,
+    "Woodcraft": 94,
+    "Fishing": 24,
+    "Crafting/Industry": 471,
+    "Trade/Commerce": 47,
+    "Medicine": 24,
+    "Builders": 24,
+    "Teaching": 12,
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
+   }
+  },
+  "vantir|nobility|r17": {
+   "population": 205,
+   "wealth": 1230,
+   "labour": {
+    "Bureaucrats": 51,
+    "Cavalry": 31,
+    "Diplomacy": 10,
+    "Culture": 10,
+    "Teaching": 10
+   }
+  },
+  "dorn|peasants|r17": {
+   "population": 589,
+   "wealth": 295,
+   "labour": {
+    "Agriculture": 236,
+    "Mining": 24,
+    "Woodcraft": 24,
+    "Fishing": 6,
+    "Crafting/Industry": 118,
+    "Trade/Commerce": 12,
+    "Medicine": 6,
+    "Builders": 6,
+    "Teaching": 3,
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
+   }
+  },
+  "dorn|nobility|r17": {
+   "population": 51,
+   "wealth": 306,
+   "labour": {
+    "Bureaucrats": 13,
+    "Cavalry": 8,
+    "Diplomacy": 3,
+    "Culture": 3,
+    "Teaching": 3
+   }
+  }
+ },
+ "governments": {
+  "vantiria": {
+   "ledger": 500,
+   "commitBureaucrats": 1
+  },
+  "kerinia": {
+   "ledger": 500,
+   "commitBureaucrats": 1
+  }
+ }
+}

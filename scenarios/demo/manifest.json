@@ -1,0 +1,7 @@
+{
+ "schemaVersion": 1,
+ "id": "demo",
+ "name": "Demo — 2 Countries",
+ "description": "Small launchable demo (14x10 grid)",
+ "seed": 20261104
+}

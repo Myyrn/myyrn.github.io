@@ -1,0 +1,12 @@
+{
+  "mob.eligibleShare": { "value": 0.1,  "status": "placeholder" },
+  "mob.originGain":    { "value": 0.5,  "status": "placeholder" },
+  "mob.destResent":    { "value": 0.5,  "status": "placeholder" },
+  "demo.rate":         { "value": 0.2,  "status": "placeholder" },
+  "demo.control":      { "value": 0.1,  "status": "placeholder" },
+  "demo.opinion":      { "value": 1.5,  "status": "placeholder" },
+  "demo.opinionDecay": { "value": 0.01, "status": "placeholder" },
+  "demo.destResent":   { "value": 0.3,  "status": "placeholder" },
+  "conv.eps":          { "value": 1e-6, "status": "placeholder" },
+  "prop.resist":       { "value": 1,    "status": "placeholder" }
+}
